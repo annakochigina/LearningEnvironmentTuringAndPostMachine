@@ -275,7 +275,7 @@ def second_task_learn(dict_windows, widgets):
     label_next.image = photo_next
     button_next = Tk.Button(master=window_learning_turing, text="Следующее задание  ", image=photo_next,
                             compound="right", width=200, height=25, font=("Arial", "12", "italic"), background="white",
-                            cursor="hand2", command=lambda :third_task_learn(dict_windows, widgets))
+                            cursor="hand2", command=lambda: third_task_learn(dict_windows, widgets))
     button_next.place(x=950, y=705)
     widgets.append(button_next)
 
@@ -361,23 +361,23 @@ def third_task_learn(dict_windows, widgets):
                             border=10)
     frame_answer.place(x=900, y=500)
     widgets.append(frame_answer)
-    entry_answer_stud = Tk.Entry(master=frame_answer, width=20, font=('Arial', 16, 'bold'), relief="raised")
-    entry_answer_stud.place(x=1, y=1)
-    widgets.append(entry_answer_stud)
+    entry_answer = Tk.Entry(master=frame_answer, width=20, font=('Arial', 16, 'bold'), relief="raised")
+    entry_answer.place(x=1, y=1)
+    widgets.append(entry_answer)
 
     list_true_answer = []
 
     button_verification = Tk.Button(master=window_learning_turing, text="Проверить", width=15, height=1,
                                     font=("Arial", "12", "italic"), background="white",
                                     cursor="hand2",
-                                    command=lambda: check_third_task(list_true_answer, entry_answer_stud, label_true_tasks))
+                                    command=lambda: check_third_task(list_true_answer, entry_answer, label_true_tasks))
     button_verification.place(x=650, y=705)
     widgets.append(button_verification)
 
     button_restart = Tk.Button(master=window_learning_turing, text="Повторить", width=15, height=1,
                                font=("Arial", "12", "italic"), background="white",
                                cursor="hand2",
-                               command=lambda: restart_third_task(label_description_task, list_true_answer, turing_alg_obj, turing_alg_wid))
+                               command=lambda: restart_third_task(label_description_task, list_true_answer, label_true_tasks, entry_answer, turing_alg_obj, turing_alg_wid))
     button_restart.place(x=450, y=705)
     widgets.append(button_restart)
 
@@ -387,17 +387,19 @@ def third_task_learn(dict_windows, widgets):
     label_next.image = photo_next
     button_next = Tk.Button(master=window_learning_turing, text="Следующее задание  ", image=photo_next,
                             compound="right", width=200, height=25, font=("Arial", "12", "italic"), background="white",
-                            cursor="hand2")
+                            cursor="hand2", command=lambda: fourth_task_learn(dict_windows, widgets))
     button_next.place(x=950, y=705)
     widgets.append(button_next)
 
     frame_table_rules = Tk.Frame(master=window_learning_turing, width=800, height=250, border=10,
                                  background=rgb_hack((1, 116, 64)))
     frame_table_rules.place(x=50, y=430)
+    widgets.append(frame_table_rules)
     # width = 850, height = 250
 
     frame_infinity_tape = Tk.Frame(master=window_learning_turing, width=1140, height=100, background="white")
     frame_infinity_tape.place(x=30, y=275)
+    widgets.append(frame_infinity_tape)
 
     img_point = Image.open(Path.cwd() / "Image" / "pointer.png")
     photo_point = ImageTk.PhotoImage(img_point, master=window_learning_turing)
@@ -405,6 +407,7 @@ def third_task_learn(dict_windows, widgets):
     label_point.image = photo_point
     label_point = Tk.Label(master=frame_infinity_tape, image=photo_point, width=40, height=40, background="white")
     label_point.place(x=547, y=0)
+    widgets.append(label_point)
 
     button_right = Tk.Button(master=window_learning_turing, width=1, height=6,
                              command=lambda: movement_right(turing_alg_obj, turing_alg_wid))
@@ -427,8 +430,10 @@ def third_task_learn(dict_windows, widgets):
     read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid, list_true_answer, 3)
 
 
-def restart_third_task(label_description_task, list_true_answer, turing_alg_obj, turing_alg_wid):
+def restart_third_task(label_description_task, list_true_answer, label_true_tasks, entry_answer, turing_alg_obj, turing_alg_wid):
     cleaning_widgets(turing_alg_obj, turing_alg_wid)
+    label_true_tasks.config(text="")
+    entry_answer.delete("0", "end")
     list_true_answer.clear()
     read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid, list_true_answer, 3)
 
@@ -438,6 +443,228 @@ def check_third_task(list_true_answer, entry_answer, label_true_tasks):
         return messagebox.showerror(title="Ошибка", message="Похоже ты забыл написать ответ..", parent=entry_answer)
     print(list_true_answer)
     if list_true_answer[0] == entry_answer.get():
+        label_true_tasks.config(text="Молодец! Ты верно выполнил задание!")
+    else:
+        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуй ещё раз!")
+
+
+def fourth_task_learn(dict_windows, widgets):
+    widgets = destroy_widgets(widgets)
+    window_learning_turing = dict_windows["window_learning_turing"]
+
+    label_number_task = Tk.Label(master=window_learning_turing, width=80, text="Задание 4", justify="center",
+                                 font=("Gabriola", "28"), background="white")
+    label_number_task.place(x=0, y=10)
+    widgets.append(label_number_task)
+
+    img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
+    photo_exit = ImageTk.PhotoImage(img_exit, master=window_learning_turing)
+    label_exit = Tk.Label(window_learning_turing, image=photo_exit)
+    label_exit.image = photo_exit
+    button_exit = Tk.Button(master=window_learning_turing, image=photo_exit, width=40, height=40, cursor="hand2",
+                            background="white", justify="center", relief="flat")
+    button_exit.place(x=5, y=705)
+    widgets.append(button_exit)
+
+    label_description_task = Tk.Label(master=window_learning_turing, width=100,
+                                      justify="center", font=("Gabriola", "20"), background="white")
+    label_description_task.place(x=20, y=100)
+    widgets.append(label_description_task)
+
+    label_true_tasks = Tk.Label(master=window_learning_turing, width=50, justify="left", font=("Gabriola", "20"),
+                                background="white")
+    label_true_tasks.place(x=100, y=600)
+    widgets.append(label_true_tasks)
+
+    label_answer = Tk.Label(master=window_learning_turing, text="Ваш ответ:", justify="center", font=("Gabriola", "24"),
+                            background="white")
+    label_answer.place(x=900, y=425)
+    widgets.append(label_answer)
+
+    frame_answer = Tk.Frame(master=window_learning_turing, width=265, height=50, background=rgb_hack((1, 116, 64)),
+                            border=10)
+    frame_answer.place(x=900, y=500)
+    widgets.append(frame_answer)
+    entry_answer = Tk.Entry(master=frame_answer, width=20, font=('Arial', 16, 'bold'), relief="raised")
+    entry_answer.place(x=1, y=1)
+    widgets.append(entry_answer)
+
+    list_true_answer = []
+
+    button_verification = Tk.Button(master=window_learning_turing, text="Проверить", width=15, height=1,
+                                    font=("Arial", "12", "italic"), background="white",
+                                    cursor="hand2",
+                                    command=lambda: check_fourth_task(list_true_answer, entry_answer, label_true_tasks))
+    button_verification.place(x=650, y=705)
+    widgets.append(button_verification)
+
+    button_restart = Tk.Button(master=window_learning_turing, text="Повторить", width=15, height=1,
+                               font=("Arial", "12", "italic"), background="white",
+                               cursor="hand2",
+                               command=lambda: restart_fourth_task(label_description_task, list_true_answer, label_true_tasks, entry_answer, turing_alg_obj, turing_alg_wid))
+    button_restart.place(x=450, y=705)
+    widgets.append(button_restart)
+
+    img_next = Image.open(Path.cwd() / "Image" / "Step.png")
+    photo_next = ImageTk.PhotoImage(img_next, master=window_learning_turing)
+    label_next = Tk.Label(window_learning_turing, image=photo_next)
+    label_next.image = photo_next
+    button_next = Tk.Button(master=window_learning_turing, text="Следующее задание  ", image=photo_next,
+                            compound="right", width=200, height=25, font=("Arial", "12", "italic"), background="white",
+                            cursor="hand2", command=lambda: fifth_task_learn(dict_windows, widgets))
+    button_next.place(x=950, y=705)
+    widgets.append(button_next)
+
+    frame_table_rules = Tk.Frame(master=window_learning_turing, width=800, height=250, border=10,
+                                 background=rgb_hack((1, 116, 64)))
+    frame_table_rules.place(x=50, y=430)
+    widgets.append(frame_table_rules)
+    # width = 850, height = 250
+
+    frame_infinity_tape = Tk.Frame(master=window_learning_turing, width=1140, height=100, background="white")
+    frame_infinity_tape.place(x=30, y=275)
+    widgets.append(frame_infinity_tape)
+
+    img_point = Image.open(Path.cwd() / "Image" / "pointer.png")
+    photo_point = ImageTk.PhotoImage(img_point, master=window_learning_turing)
+    label_point = Tk.Label(window_learning_turing, image=photo_point)
+    label_point.image = photo_point
+    label_point = Tk.Label(master=frame_infinity_tape, image=photo_point, width=40, height=40, background="white")
+    label_point.place(x=547, y=0)
+    widgets.append(label_point)
+
+    button_right = Tk.Button(master=window_learning_turing, width=1, height=6,
+                             command=lambda: movement_right(turing_alg_obj, turing_alg_wid))
+    button_right.place(x=1170, y=275, height=100, width=30)
+    widgets.append(button_right)
+
+    button_left = Tk.Button(master=window_learning_turing, width=1, height=6,
+                            command=lambda: movement_left(turing_alg_obj, turing_alg_wid))
+    button_left.place(x=0, y=275, height=100, width=30)
+    widgets.append(button_left)
+
+    alphabetical = []
+    infinity_tape = {}
+    counter_states = 2
+    output_elm_ids = [-9, 9]
+    turing_alg_obj = TuringAlg(0, alphabetical, 1, counter_states)
+    turing_alg_wid = ObjTuringAlg(infinity_tape, frame_infinity_tape, frame_table_rules, output_elm_ids,
+                                  None, button_right, button_left)
+
+    read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid, list_true_answer, 4)
+
+
+def restart_fourth_task(label_description_task, list_true_answer, label_true_tasks, entry_answer, turing_alg_obj, turing_alg_wid):
+    cleaning_widgets(turing_alg_obj, turing_alg_wid)
+    label_true_tasks.config(text="")
+    entry_answer.delete("0", "end")
+    list_true_answer.clear()
+    read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid, list_true_answer, 4)
+
+
+def check_fourth_task(list_true_answer, entry_answer, label_true_tasks):
+    if entry_answer.get() == "":
+        return messagebox.showerror(title="Ошибка", message="Похоже ты забыл написать ответ..", parent=entry_answer)
+    print(list_true_answer)
+    if list_true_answer[0] == entry_answer.get():
+        label_true_tasks.config(text="Молодец! Ты верно выполнил задание!")
+    else:
+        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуй ещё раз!")
+
+
+def fifth_task_learn(dict_windows, widgets):
+    widgets = destroy_widgets(widgets)
+    window_learning_turing = dict_windows["window_learning_turing"]
+
+    label_number_task = Tk.Label(master=window_learning_turing, width=80, text="Задание 5", justify="center",
+                                 font=("Gabriola", "28"), background="white")
+    label_number_task.place(x=0, y=10)
+    widgets.append(label_number_task)
+
+    img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
+    photo_exit = ImageTk.PhotoImage(img_exit, master=window_learning_turing)
+    label_exit = Tk.Label(window_learning_turing, image=photo_exit)
+    label_exit.image = photo_exit
+    button_exit = Tk.Button(master=window_learning_turing, image=photo_exit, width=40, height=40, cursor="hand2",
+                            background="white", justify="center", relief="flat")
+    button_exit.place(x=5, y=705)
+    widgets.append(button_exit)
+
+    label_description_task = Tk.Label(master=window_learning_turing, width=100,
+                                      justify="center", font=("Gabriola", "20"), background="white")
+    label_description_task.place(x=20, y=100)
+    widgets.append(label_description_task)
+
+    label_true_tasks = Tk.Label(master=window_learning_turing, width=50, justify="left", font=("Gabriola", "20"),
+                                background="white")
+    label_true_tasks.place(x=100, y=600)
+    widgets.append(label_true_tasks)
+
+    list_true_answer = []
+
+    button_verification = Tk.Button(master=window_learning_turing, text="Проверить", width=15, height=1,
+                                    font=("Arial", "12", "italic"), background="white",
+                                    cursor="hand2",
+                                    command=lambda: check_fifth_task(list_true_answer, label_true_tasks, turing_alg_wid))
+    button_verification.place(x=650, y=705)
+    widgets.append(button_verification)
+
+    button_restart = Tk.Button(master=window_learning_turing, text="Повторить", width=15, height=1,
+                               font=("Arial", "12", "italic"), background="white",
+                               cursor="hand2",
+                               command=lambda: restart_fifth_task(label_description_task, list_true_answer, label_true_tasks, turing_alg_obj, turing_alg_wid))
+    button_restart.place(x=450, y=705)
+    widgets.append(button_restart)
+
+    frame_table_rules = Tk.Frame(master=window_learning_turing, width=800, height=250, border=10,
+                                 background=rgb_hack((1, 116, 64)))
+    frame_table_rules.place(x=50, y=430)
+    widgets.append(frame_table_rules)
+
+    frame_infinity_tape = Tk.Frame(master=window_learning_turing, width=1140, height=100, background="white")
+    frame_infinity_tape.place(x=30, y=275)
+    widgets.append(frame_infinity_tape)
+
+    img_point = Image.open(Path.cwd() / "Image" / "pointer.png")
+    photo_point = ImageTk.PhotoImage(img_point, master=window_learning_turing)
+    label_point = Tk.Label(window_learning_turing, image=photo_point)
+    label_point.image = photo_point
+    label_point = Tk.Label(master=frame_infinity_tape, image=photo_point, width=40, height=40, background="white")
+    label_point.place(x=547, y=0)
+    widgets.append(label_point)
+
+    button_right = Tk.Button(master=window_learning_turing, width=1, height=6,
+                             command=lambda: movement_right(turing_alg_obj, turing_alg_wid))
+    button_right.place(x=1170, y=275, height=100, width=30)
+    widgets.append(button_right)
+
+    button_left = Tk.Button(master=window_learning_turing, width=1, height=6,
+                            command=lambda: movement_left(turing_alg_obj, turing_alg_wid))
+    button_left.place(x=0, y=275, height=100, width=30)
+    widgets.append(button_left)
+
+    alphabetical = []
+    infinity_tape = {}
+    counter_states = 2
+    output_elm_ids = [-9, 9]
+    turing_alg_obj = TuringAlg(0, alphabetical, 1, counter_states)
+    turing_alg_wid = ObjTuringAlg(infinity_tape, frame_infinity_tape, frame_table_rules, output_elm_ids,
+                                  None, button_right, button_left)
+
+    read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid, list_true_answer, 5)
+
+
+def restart_fifth_task(label_description_task, list_true_answer, label_true_tasks, turing_alg_obj, turing_alg_wid):
+    cleaning_widgets(turing_alg_obj, turing_alg_wid)
+    label_true_tasks.config(text="")
+    list_true_answer.clear()
+    read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid, list_true_answer, 5)
+
+
+def check_fifth_task(list_true_answer, label_true_tasks, turing_alg_wid):
+    if turing_alg_wid.entry_answer_third.get() == "":
+        return messagebox.showerror(title="Ошибка", message="Похоже ты забыл написать ответ..", parent=turing_alg_wid.entry_answer_third)
+    if list_true_answer[0] == turing_alg_wid.entry_answer_third.get():
         label_true_tasks.config(text="Молодец! Ты верно выполнил задание!")
     else:
         label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуй ещё раз!")
@@ -482,8 +709,8 @@ def delete_rules_table(turing_alg_obj):
     turing_alg_obj.table_rules.clear()
 
 
-def read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid, list_true_answer, number_task):
-    with open("TASKS_TURING.json", encoding='utf-8') as f:
+def read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid, list_true_answer, number_task, num_row=None, num_col=None):
+    with open("LEARNING_TURING.json", encoding='utf-8') as f:
         example_info = json.load(f)
 
     list_tasks = []
@@ -507,7 +734,6 @@ def read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid,
     turing_alg_obj.alphabetical = list(alphabetical_text)
     turing_alg_obj.alphabetical.append(" ")
     label_description_task.config(text=task_condition)
-    # turing_alg_wid.text_task_condition.insert("end", task_condition)
 
     creating_rules_table(turing_alg_obj, turing_alg_wid)
 
@@ -523,10 +749,10 @@ def read_and_create_task(label_description_task, turing_alg_obj, turing_alg_wid,
         num_col = current_tasks.get("num_cell_col")
         cell = turing_alg_obj.table_rules[num_row][num_col]
         cell["state"] = "normal"
-        turing_alg_wid.entry_answer_stud_third = cell
+        turing_alg_wid.entry_answer_third = cell
 
-    if number_task == 4:
-        turing_alg_wid.lst_var = current_tasks.get("var")
+    # if number_task == 4:
+    #     turing_alg_wid.lst_var = current_tasks.get("var")
 
 
 def movement_right(turing_alg_obj, turing_alg_wid):
