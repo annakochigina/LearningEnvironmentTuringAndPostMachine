@@ -44,103 +44,135 @@ def destroy_objects(objects):
     return []
 
 
-def brief_reference_turing(objects, dict_windows):
-    destroy_objects(objects)
-    window_for_algorithms = dict_windows["window_for_algorithms"]
+def first_page_theory(window_for_algorithms, objects, widgets_theory):
+    destroy_objects(widgets_theory)
 
     frame_text_theory = Tk.Frame(master=window_for_algorithms, border=10, width=1200, height=705,
                                  background=rgb_hack((1, 116, 64)))
     frame_text_theory.place(x=0, y=0)
     objects.append(frame_text_theory)
+    widgets_theory.append(frame_text_theory)
 
     text_turing = Tk.Label(master=frame_text_theory, justify="left", width=96, height=26,
                            font=("Bahnschrift Light", "16"), background="white")
     text_turing.place(x=10, y=10)
     objects.append(text_turing)
+    widgets_theory.append(text_turing)
 
     label_info_one = Tk.Label(master=text_turing, text=BRIEF_REFERENCE_TURING, justify="left",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_one.place(x=5, y=52)
     objects.append(label_info_one)
+    widgets_theory.append(label_info_one)
 
     label_info_two = Tk.Label(master=text_turing, text=BRIEF_REFERENCE_TURING_TWO, justify="right",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_two.place(x=375, y=390)
     objects.append(label_info_two)
+    widgets_theory.append(label_info_two)
 
     label_turing = Tk.Label(master=text_turing, text="Машина Тьюринга", justify="center", width=40, height=1,
                             font=("Bahnschrift Light", "24", "bold"), background="white")
     label_turing.place(x=0, y=5)
     objects.append(label_turing)
+    widgets_theory.append(label_turing)
 
     img_tur = Image.open(Path.cwd() / "Image" / "turing.png")
     photo_tur = ImageTk.PhotoImage(img_tur, master=text_turing)
     label_tur = Tk.Label(text_turing, image=photo_tur)
     label_tur.image = photo_tur
     label_tur.place(x=810, y=10)
+    widgets_theory.append(label_tur)
 
     img_mach_tur = Image.open(Path.cwd() / "Image" / "machine_turing.png")
     photo_mach_tur = ImageTk.PhotoImage(img_mach_tur, master=text_turing)
     label_mach_tur = Tk.Label(text_turing, image=photo_mach_tur)
     label_mach_tur.image = photo_mach_tur
     label_mach_tur.place(x=10, y=390)
+    widgets_theory.append(label_mach_tur)
 
-    img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
-    photo_exit = ImageTk.PhotoImage(img_exit, master=window_for_algorithms)
-    label_exit = Tk.Label(window_for_algorithms, image=photo_exit)
-    label_exit.image = photo_exit
-    button_exit = Tk.Button(master=window_for_algorithms, image=photo_exit, width=40, height=40, background="white",
-                            relief="flat", cursor="hand2", command=lambda: menu_turing(objects, dict_windows))
-    button_exit.place(x=5, y=705)
-    objects.append(button_exit)
+    img_next = Image.open(Path.cwd() / "Image" / "next.png")
+    photo_next = ImageTk.PhotoImage(img_next, master=window_for_algorithms)
+    label_next = Tk.Label(window_for_algorithms, image=photo_next)
+    label_next.image = photo_next
+    button_next = Tk.Button(master=window_for_algorithms, image=photo_next, width=40, height=40, background="white",
+                            relief="flat", cursor="hand2",
+                            command=lambda: second_page_theory(window_for_algorithms, objects, widgets_theory))
+    button_next.place(x=1150, y=705)
+    widgets_theory.append(button_next)
+    objects.append(button_next)
 
 
-def description_algorithm_turing(objects, dict_windows):
-    destroy_objects(objects)
-    window_for_algorithms = dict_windows["window_for_algorithms"]
+def second_page_theory(window_for_algorithms, objects, widgets_theory):
+    destroy_objects(widgets_theory)
 
     frame_text_theory = Tk.Frame(master=window_for_algorithms, border=10, width=1200, height=705,
                                  background=rgb_hack((1, 116, 64)))
     frame_text_theory.place(x=0, y=0)
     objects.append(frame_text_theory)
+    widgets_theory.append(frame_text_theory)
 
     text_turing = Tk.Label(master=frame_text_theory, justify="left", width=96, height=26,
                            font=("Bahnschrift Light", "16"), background="white")
     text_turing.place(x=10, y=10)
     objects.append(text_turing)
+    widgets_theory.append(text_turing)
 
     label_turing = Tk.Label(master=text_turing, text="Что собой представляет машина Тьюринга?", justify="center",
                             width=40, height=1, font=("Bahnschrift Light", "24", "bold"), background="white")
     label_turing.place(x=0, y=5)
     objects.append(label_turing)
+    widgets_theory.append(label_turing)
 
     label_info_one = Tk.Label(master=text_turing, text=DESCRIPTION_ALGORITHM_TURING_ONE, justify="left",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_one.place(x=5, y=52)
     objects.append(label_info_one)
+    widgets_theory.append(label_info_one)
 
     img_tape = Image.open(Path.cwd() / "Image" / "tape.png")
     photo_tape = ImageTk.PhotoImage(img_tape, master=text_turing)
     label_tape = Tk.Label(text_turing, image=photo_tape)
     label_tape.image = photo_tape
     label_tape.place(x=400, y=110)
+    widgets_theory.append(label_tape)
 
     label_info_two = Tk.Label(master=text_turing, text=DESCRIPTION_ALGORITHM_TURING_TWO, justify="left",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_two.place(x=5, y=230)
     objects.append(label_info_two)
+    widgets_theory.append(label_info_two)
 
     img_tappe = Image.open(Path.cwd() / "Image" / "tappe.png")
     photo_tappe = ImageTk.PhotoImage(img_tappe, master=text_turing)
     label_tappe = Tk.Label(text_turing, image=photo_tappe)
     label_tappe.image = photo_tappe
     label_tappe.place(x=10, y=400)
+    widgets_theory.append(label_tappe)
 
     img_table = Image.open(Path.cwd() / "Image" / "table.png")
     photo_table = ImageTk.PhotoImage(img_table, master=text_turing)
     label_table = Tk.Label(text_turing, image=photo_table)
     label_table.image = photo_table
     label_table.place(x=400, y=510)
+    widgets_theory.append(label_table)
+
+    img_previos = Image.open(Path.cwd() / "Image" / "previos.png")
+    photo_previos = ImageTk.PhotoImage(img_previos, master=window_for_algorithms)
+    label_previos = Tk.Label(window_for_algorithms, image=photo_previos)
+    label_previos.image = photo_previos
+    button_previos = Tk.Button(master=window_for_algorithms, image=photo_previos, width=40, height=40, background="white",
+                            relief="flat", cursor="hand2",
+                            command=lambda: first_page_theory(window_for_algorithms, objects, widgets_theory))
+    button_previos.place(x=55, y=705)
+    widgets_theory.append(button_previos)
+
+
+def theory_turing(objects, dict_windows):
+    destroy_objects(objects)
+    window_for_algorithms = dict_windows["window_for_algorithms"]
+    widgets_theory = []
+    first_page_theory(window_for_algorithms, objects, widgets_theory)
 
     img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
     photo_exit = ImageTk.PhotoImage(img_exit, master=window_for_algorithms)
@@ -197,52 +229,42 @@ def menu_turing(objects, dict_windows):  # меню для работы с ма�
                            font=("Gabriola", "48", "bold"), background=rgb_hack((1, 116, 64)))
     label_title.pack(pady=(300, 200))
     objects.append(label_title)
-    # создание кнопок для работы с машиной Тьюринга
 
+    # создание кнопок для работы с машиной Тьюринга
     img_theory = Image.open(Path.cwd() / "Image" / "theory.png")
     photo_theory = ImageTk.PhotoImage(img_theory, master=window_for_algorithms)
     label_theory = Tk.Label(window_for_algorithms, image=photo_theory)
     label_theory.image = photo_theory
-    button_theory = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_theory, width=200, height=190,
-                              cursor="hand2", command=lambda: brief_reference_turing(objects, dict_windows))
-    button_theory.place(x=50, y=450)
+    button_theory = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_theory, width=200, height=200,
+                              cursor="hand2", command=lambda: theory_turing(objects, dict_windows))
+    button_theory.place(x=125, y=450)
     objects.append(button_theory)
 
-    img_algorithm = Image.open(Path.cwd() / "Image" / "Алгоритм.png")
-    photo_algorithm = ImageTk.PhotoImage(img_algorithm, master=window_for_algorithms)
-    label_algorithm = Tk.Label(window_for_algorithms, image=photo_algorithm)
-    label_algorithm.image = photo_algorithm
-    button_algorithm = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_algorithm, width=200,
-                                 height=190, cursor="hand2",
-                                 command=lambda: description_algorithm_turing(objects, dict_windows))
-    button_algorithm.place(x=275, y=450)
-    objects.append(button_algorithm)
-
-    img_training = Image.open(Path.cwd() / "Image" / "theory.png")
+    img_training = Image.open(Path.cwd() / "Image" / "training.png")
     photo_training = ImageTk.PhotoImage(img_training, master=window_for_algorithms)
     label_training = Tk.Label(window_for_algorithms, image=photo_theory)
     label_training.image = photo_training
-    button_training = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_training, width=200, height=190,
+    button_training = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_training, width=200, height=200,
                               cursor="hand2", command=lambda: create_window_learning_turing(dict_windows))
-    button_training.place(x=500, y=450)
+    button_training.place(x=375, y=450)
     objects.append(button_training)
 
-    img_trainer = Image.open(Path.cwd() / "Image" / "Тренажер.png")
+    img_trainer = Image.open(Path.cwd() / "Image" / "trainer.png")
     photo_trainer = ImageTk.PhotoImage(img_trainer, master=window_for_algorithms)
     label_trainer = Tk.Label(window_for_algorithms, image=photo_trainer)
     label_trainer.image = photo_trainer
-    button_trainer = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_trainer, width=200, height=190,
+    button_trainer = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_trainer, width=200, height=200,
                                cursor="hand2", command=lambda: create_window_machine_turing(dict_windows))
-    button_trainer.place(x=725, y=450)
+    button_trainer.place(x=625, y=450)
     objects.append(button_trainer)
 
-    img_control = Image.open(Path.cwd() / "Image" / "Контроль.png")
+    img_control = Image.open(Path.cwd() / "Image" / "control.png")
     photo_control = ImageTk.PhotoImage(img_control, master=window_for_algorithms)
     label_control = Tk.Label(window_for_algorithms, image=photo_control)
     label_control.image = photo_control
-    button_control = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_control, width=200, height=190,
+    button_control = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_control, width=200, height=200,
                                cursor="hand2", command=lambda: create_window_turing_control(dict_windows))
-    button_control.place(x=950, y=450)
+    button_control.place(x=875, y=450)
     objects.append(button_control)
 
     img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
@@ -403,35 +425,35 @@ def menu_post(objects, dict_windows):  # меню для работы с маш�
     photo_theory = ImageTk.PhotoImage(img_theory, master=window_for_algorithms)
     label_theory = Tk.Label(window_for_algorithms, image=photo_theory)
     label_theory.image = photo_theory
-    button_theory = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_theory, width=200, height=190,
+    button_theory = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_theory, width=200, height=200,
                               cursor="hand2", command=lambda: brief_reference_post(objects, dict_windows))
     button_theory.place(x=125, y=450)
     objects.append(button_theory)
 
-    img_algorithm = Image.open(Path.cwd() / "Image" / "Алгоритм.png")
+    img_algorithm = Image.open(Path.cwd() / "Image" / "training.png")
     photo_algorithm = ImageTk.PhotoImage(img_algorithm, master=window_for_algorithms)
     label_algorithm = Tk.Label(window_for_algorithms, image=photo_algorithm)
     label_algorithm.image = photo_algorithm
     button_algorithm = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_algorithm, width=200,
-                                 height=190, cursor="hand2",
+                                 height=200, cursor="hand2",
                                  command=lambda: description_algorithm_post(objects, dict_windows))
     button_algorithm.place(x=375, y=450)
     objects.append(button_algorithm)
 
-    img_trainer = Image.open(Path.cwd() / "Image" / "Тренажер.png")
+    img_trainer = Image.open(Path.cwd() / "Image" / "trainer.png")
     photo_trainer = ImageTk.PhotoImage(img_trainer, master=window_for_algorithms)
     label_trainer = Tk.Label(window_for_algorithms, image=photo_trainer)
     label_trainer.image = photo_trainer
-    button_trainer = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_trainer, width=200, height=190,
+    button_trainer = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_trainer, width=200, height=200,
                                cursor="hand2", command=lambda: create_window_machine_post(dict_windows))
     button_trainer.place(x=625, y=450)
     objects.append(button_trainer)
 
-    img_control = Image.open(Path.cwd() / "Image" / "Контроль.png")
+    img_control = Image.open(Path.cwd() / "Image" / "control.png")
     photo_control = ImageTk.PhotoImage(img_control, master=window_for_algorithms)
     label_control = Tk.Label(window_for_algorithms, image=photo_control)
     label_control.image = photo_control
-    button_control = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_control, width=200, height=190,
+    button_control = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_control, width=200, height=200,
                                cursor="hand2", command=lambda: create_window_post_control(dict_windows))
     button_control.place(x=875, y=450)
     objects.append(button_control)

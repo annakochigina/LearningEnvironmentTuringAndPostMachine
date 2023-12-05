@@ -11,7 +11,7 @@ from PIL import Image, ImageTk
 from pathlib import Path
 
 import tkinter.filedialog as fd
-import json
+import json, random
 
 TRAINER = text.CONST_TRAINER_TUR
 
@@ -226,26 +226,46 @@ def read_example(turing_alg_obj, turing_alg_wid, dict_windows):
                                   filetypes=(("Turing Examples", "*.tur"),),
                                   parent=dict_windows["window_machine_turing"])
 
-    print("это файл", filename)
     if not filename:
         return
 
-    cleaning_widgets(turing_alg_obj, turing_alg_wid)
-
     with open(filename, encoding='utf-8') as f:
         example_info = json.load(f)
+
+    task_condition = example_info.get("task_condition")
+    turing_alg_wid.text_task_condition.delete("1.0", "end")
+    turing_alg_wid.text_task_condition.insert("end", task_condition)
+
+    # if len(example_info) == 2 and example_info["task_condition"] and example_info["tests"]:
+    #     test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
+    #     test.place(x=10, y=40)
+    #
+    #     turing_alg_wid.tests = test
+    #
+    #     table_val = example_info.get("tests")
+    #     table_tests = []
+    #     for key in table_val:
+    #         table_tests.append(tuple([key, table_val[key]]))
+    #     columns = ("input", "output")
+    #     tree = ttk.Treeview(master=test, columns=columns, show="headings")
+    #     tree.pack(fill="both", expand=1)
+    #     tree.heading("input", text="input")
+    #     tree.heading("output", text="output")
+    #
+    #     for test in table_tests:
+    #         tree.insert("", "end", values=test)
+    #
+    # elif len(example_info) > 1:
+    cleaning_widgets(turing_alg_obj, turing_alg_wid)
 
     alphabetical_text = example_info.get("alphabetical")
     counter_states = example_info.get("counter_states")
     pointer_index = example_info.get("pointer_index")
     table_rules = example_info.get("table_rules")
     expression_info = example_info.get("expression")
-    task_condition = example_info.get("task_condition")
 
     turing_alg_obj.pointer_index = pointer_index
     turing_alg_obj.counter_states = counter_states
-    turing_alg_wid.text_task_condition.delete("1.0", "end")
-    turing_alg_wid.text_task_condition.insert("end", task_condition)
 
     input_alphabet(turing_alg_obj, alphabetical_text, turing_alg_wid)
     fill_rules_table(turing_alg_obj, table_rules)
@@ -331,6 +351,9 @@ def cleaning_infinity_tape(turing_alg_wid):
 def cleaning_widgets(turing_alg_obj, turing_alg_wid):
     turing_alg_wid.output_elm_ids = [-9, 9]
 
+    if turing_alg_wid.tests:
+        turing_alg_wid.tests.destroy()
+
     delete_rules_table(turing_alg_obj)
 
     for elem in turing_alg_wid.list_label_ind:
@@ -405,6 +428,7 @@ def movement_left(turing_alg_obj, turing_alg_wid):
 
 
 def creating_rules_table(turing_alg_obj, turing_alg_wid):
+
     def check_validate_alphabetical(newval):
         check_str = f"^[{turing_alg_obj.get_alphabetical_str()}]?[<>.]?[0-{turing_alg_obj.counter_states}]*$"
         return re.match(check_str, newval) is not None
@@ -415,6 +439,9 @@ def creating_rules_table(turing_alg_obj, turing_alg_wid):
             cell = Tk.Entry(master=turing_alg_wid.frame_table_rules, width=5, font=("Arial", "16", "italic", "bold"),
                             relief="raised")
             if j == 0 and i > 0:
+                # if (turing_alg_obj.alphabetical[i - 1] == ' '):
+                #     cell.insert("end", 'λ')
+                # else: вставить знак лямбды
                 cell.insert("end", turing_alg_obj.alphabetical[i - 1])
                 cell["state"] = "disabled"
                 cell["justify"] = "center"
@@ -710,6 +737,185 @@ def help_trainer(dict_windows):
     label_info.place(x=5, y=5)
 
 
+def first_task_laboratory_work(turing_alg_obj, turing_alg_wid):
+
+    turing_alg_wid.text_task_condition.delete("1.0", "end")
+    if turing_alg_wid.tests:
+        turing_alg_wid.tests.destroy()
+
+    #генерация условия задания 1
+    basis = random.randint(3, 5)
+    free_member = random.randint(0, basis-1)
+    text_task = f'Составьте программу для машины Тьюринга, которая приписывает букву «И» в начале строки из палочек, ' \
+                f'если количество палочек в строке представимо в виде {basis}k+{free_member} и букву «Л», если нет'
+    turing_alg_wid.text_task_condition.insert("end", text_task)
+
+    #генерация тестов
+    table_tests = []
+    test_one = random.randint(1, 7)*2
+    if (test_one - free_member) % basis == 0:
+        test_one_answer = 'И'+'|'*test_one
+    else:
+        test_one_answer = 'Л'+'|'*test_one
+    table_tests.append(tuple([test_one, test_one_answer]))
+    test_two = random.randint(1, 7)*2+1
+    if (test_two - free_member) % basis == 0:
+        test_two_answer = 'И'+'|'*test_two
+    else:
+        test_two_answer = 'Л'+'|'*test_two
+    table_tests.append(tuple([test_two, test_two_answer]))
+
+    test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
+    test.place(x=10, y=40)
+    turing_alg_wid.tests = test
+
+    columns = ("input", "output")
+    tree = ttk.Treeview(master=test, columns=columns, show="headings")
+    tree.pack(fill="both", expand=1)
+    tree.heading("input", text="input")
+    tree.heading("output", text="output")
+
+    for test in table_tests:
+        tree.insert("", "end", values=test)
+
+
+def convert_to_base(n, base):
+    digits = []
+    while n > 0:
+        digits.append(n % base)
+        n = n // base
+    digits.reverse()
+    return digits
+
+
+def second_task_laboratory_work(turing_alg_obj, turing_alg_wid):
+
+    turing_alg_wid.text_task_condition.delete("1.0", "end")
+    if turing_alg_wid.tests:
+        turing_alg_wid.tests.destroy()
+
+    # генерация условия задания 2
+    basis = random.randint(3, 5)
+    increase_by_number = random.randint(2, basis - 1)
+    text_task = f'Составьте программу для машины Тьюринга, которая умножает натуральное число, записанное на ленте в ' \
+                f'{basis}-ичной системе счисления на {increase_by_number}'
+    turing_alg_wid.text_task_condition.insert("end", text_task)
+
+    #генерация тестов
+    table_tests = []
+    test_one = random.randint(10000, 50000)
+    input_test_one = convert_to_base(test_one, basis) #число в заданной системе счисления
+    result_decimal = convert_to_base(test_one*increase_by_number, basis) #результат умножения в заданной системе счисления
+
+    table_tests.append(tuple([input_test_one, result_decimal]))
+
+    test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
+    test.place(x=10, y=40)
+    turing_alg_wid.tests = test
+
+    columns = ("input", "output")
+    tree = ttk.Treeview(master=test, columns=columns, show="headings")
+    tree.pack(fill="both", expand=1)
+    tree.heading("input", text="input")
+    tree.heading("output", text="output")
+
+    for test in table_tests:
+        tree.insert("", "end", values=test)
+
+
+def third_task_laboratory_work(turing_alg_obj, turing_alg_wid):
+    turing_alg_wid.text_task_condition.delete("1.0", "end")
+    if turing_alg_wid.tests:
+        turing_alg_wid.tests.destroy()
+
+    # генерация условия задания 3
+    divider = random.randint(3, 7)
+    text_task = f'Составьте программу для машины Тьюринга, которая вычисляет функцию [a/{divider}],  ' \
+                f'где [ ] означает целую часть, а число представлено на ленте в виде группы палочек'
+    turing_alg_wid.text_task_condition.insert("end", text_task)
+
+    # генерация тестов
+    table_tests = []
+
+    test_one = divider*random.randint(1, 3)
+    test_one_answer = test_one // divider
+    table_tests.append(tuple([test_one, test_one_answer]))
+    test_two = divider + random.randint(1, 3)*divider - random.randint(1, divider-1)
+    test_two_answer = test_two // divider
+    table_tests.append(tuple([test_two, test_two_answer]))
+
+    test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
+    test.place(x=10, y=40)
+    turing_alg_wid.tests = test
+
+    columns = ("input", "output")
+    tree = ttk.Treeview(master=test, columns=columns, show="headings")
+    tree.pack(fill="both", expand=1)
+    tree.heading("input", text="input")
+    tree.heading("output", text="output")
+
+    for test in table_tests:
+        tree.insert("", "end", values=test)
+
+
+def fourth_task_laboratory_work(turing_alg_obj, turing_alg_wid):
+    turing_alg_wid.text_task_condition.delete("1.0", "end")
+    if turing_alg_wid.tests:
+        turing_alg_wid.tests.destroy()
+
+    # генерация условия задания 4
+    basis = random.randint(3, 5)
+    increase_by_number = str(random.randint(2, basis - 1)) #какие цифры ищем
+    side = random.choice(['справа','слева'])
+    text_task = f'Составьте программу для машины Тьюринга, которая приписывает {side} к числу в ' \
+                f'{basis}-ичной системе счисления записанному на ленте столько палочек, сколько в нем цифр «{increase_by_number}»'
+    turing_alg_wid.text_task_condition.insert("end", text_task)
+
+    # генерация тестов
+    table_tests = []
+    test_one = convert_to_base(random.randint(100, 500), basis)
+    print(type(test_one))
+    print(test_one)
+    count_one = test_one.count(int(increase_by_number))
+    print(count_one)
+
+    if count_one > 0:
+        if side == 'справа':
+            test_one_answer = test_one.copy()
+            test_one_answer.append('|'*count_one)
+        else:
+            test_one_answer = ['|'*count_one] + test_one
+    else:
+        test_one_answer = test_one.copy()
+
+    table_tests.append(tuple([test_one, test_one_answer]))
+
+    flag = True
+
+    test_two = None
+
+    while flag:
+        test_two = convert_to_base(random.randint(100, 500), basis)
+
+        if int(increase_by_number) not in test_two:
+            flag = False
+
+    table_tests.append(tuple([test_two, test_two]))
+
+    test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
+    test.place(x=10, y=40)
+    turing_alg_wid.tests = test
+
+    columns = ("input", "output")
+    tree = ttk.Treeview(master=test, columns=columns, show="headings")
+    tree.pack(fill="both", expand=1)
+    tree.heading("input", text="input")
+    tree.heading("output", text="output")
+
+    for test in table_tests:
+        tree.insert("", "end", values=test)
+
+
 def simulator_turing_machine(dict_windows):
     window_machine_turing = dict_windows.get("window_machine_turing")
 
@@ -765,10 +971,10 @@ def simulator_turing_machine(dict_windows):
     photo_point = ImageTk.PhotoImage(img_point, master=window_machine_turing)
     label_point = Tk.Label(window_machine_turing, image=photo_point)
     label_point.image = photo_point
-    label_point = Tk.Label(master=frame_infinity_tape, image=photo_point, width=40, height=40)
+    label_point = Tk.Label(master=frame_infinity_tape, image=photo_point, width=40, height=41)
     label_point.place(x=547, y=0)
 
-    place_y = 0
+    # place_y = 0
     list_lbl_comments = []
 
     for i in range(3):
@@ -872,6 +1078,13 @@ def simulator_turing_machine(dict_windows):
     tapemenu.add_command(label="Сохранить ленту", command=lambda: save_expression(turing_alg_obj, turing_alg_wid))
     tapemenu.add_command(label="Восстановить ленту", command=lambda: tape_recovery(turing_alg_obj, turing_alg_wid))
 
+    labworkmenu = Tk.Menu(master=mainmenu, tearoff=0)
+    labworkmenu.add_command(label="Задание 1", command=lambda: first_task_laboratory_work(turing_alg_obj, turing_alg_wid))
+    labworkmenu.add_command(label="Задание 2", command=lambda: second_task_laboratory_work(turing_alg_obj, turing_alg_wid))
+    labworkmenu.add_command(label="Задание 3", command=lambda: third_task_laboratory_work(turing_alg_obj, turing_alg_wid))
+    labworkmenu.add_command(label="Задание 4", command=lambda: fourth_task_laboratory_work(turing_alg_obj, turing_alg_wid))
+    labworkmenu.add_command(label="Задание 5")
+
     processmenu = Tk.Menu(master=mainmenu, tearoff=0)
     processmenu.add_command(label="Запуск", command=lambda: process_turing_alg(turing_alg_obj, turing_alg_wid))
     processmenu.add_command(label="Выполнить шаг",
@@ -882,6 +1095,7 @@ def simulator_turing_machine(dict_windows):
 
     mainmenu.add_cascade(label="Файл", menu=filemenu)
     mainmenu.add_cascade(label="Лента", menu=tapemenu)
+    mainmenu.add_cascade(label="Лабораторная работа", menu=labworkmenu)
     mainmenu.add_cascade(label="Выполнение", menu=processmenu)
     mainmenu.add_cascade(label="?", menu=helpmenu)
 

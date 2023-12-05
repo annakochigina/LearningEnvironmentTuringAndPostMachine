@@ -1,6 +1,7 @@
 
 import tkinter as Tk
 import services.algorithms as algorithms
+from tkinter import ttk
 from PIL import Image
 from tkinter import messagebox
 
@@ -47,12 +48,12 @@ label_title.pack(pady=(150,75))
 frame_button = Tk.Frame(master=window, width=1200, height=375, background="white")
 frame_button.place(x=0, y=375)
 
-photo_tur = Tk.PhotoImage(file = "./Image/Кнопка_машина_тьюринга.png")
-button_turing_machine = Tk.Button(master=window, font=("Gabriola", "24"), relief="flat" ,image=photo_tur, width=210, height=260, cursor="hand2", command=create_window_turing)
+photo_tur = Tk.PhotoImage(file = "./Image/StartTuring.png")
+button_turing_machine = Tk.Button(master=window, image=photo_tur, font=("Gabriola", "40"), background='white', activeforeground=rgb_hack((1, 116, 64)), relief="flat", cursor="hand2", command=create_window_turing)
 button_turing_machine.place(x=325, y=420)
 
-photo_post = Tk.PhotoImage(file = "./Image/Кнопка_машина_поста.png")
-button_post_machine = Tk.Button(master=window, font=("Gabriola", "24"), relief="flat" ,image=photo_post, width=210, height=260, cursor="hand2", command=create_window_post)
+photo_post = Tk.PhotoImage(file = "./Image/StartPost.png")
+button_post_machine = Tk.Button(master=window, image=photo_post, font=("Gabriola", "40"), background='white', activeforeground=rgb_hack((1, 116, 64)), relief="flat", cursor="hand2", command=create_window_post)
 button_post_machine.place(x=675, y=420)
 
 window.protocol("WM_DELETE_WINDOW", on_closing)

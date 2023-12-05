@@ -15,6 +15,7 @@ class ObjTuringAlg():
         self.entry_alphabetical = entry_alphabetical
         self.button_run = button_run
         self.button_step = button_step
+        self.tests = None
 
         self.last_save_output_elm = None
         self.last_save_inf_tape = infnity_tape
