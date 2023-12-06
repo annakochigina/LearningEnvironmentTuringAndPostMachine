@@ -8,7 +8,7 @@ from classes.MyOptionMenu import MyOptionMenu
 from classes.PostAlg import PostAlg
 from classes.ObjPostAlg import ObjPostAlg
 import re
-import json
+import json, random
 import tkinter.filedialog as fd
 from PIL import Image, ImageTk
 from pathlib import Path
@@ -692,6 +692,131 @@ def help_trainer(dict_windows):
     label_info.place(x=5, y=5)
 
 
+def create_table_tests(post_alg_wid, table_tests):
+    test = Tk.Frame(master=post_alg_wid.text_task_condition, background="white", border=10)
+    test.place(x=15, y=45)
+    post_alg_wid.tests = test
+
+    columns = ("input", "output")
+    tree = ttk.Treeview(master=test, columns=columns, show="headings")
+    tree.pack(fill="both", expand=1)
+    tree.heading("input", text="input")
+    tree.heading("output", text="output")
+
+    for test in table_tests:
+        tree.insert("", "end", values=test)
+
+
+def first_task_laboratory_work(post_alg_wid):
+
+    post_alg_wid.text_task_condition.delete("1.0", "end")
+    if post_alg_wid.tests:
+        post_alg_wid.tests.destroy()
+
+    # генерация условия задания 1
+    flag = True
+    while flag:
+        count_deleted_сhet = random.randint(0,3)
+        count_deleted_nechet = random.randint(0,3)
+        if count_deleted_сhet != count_deleted_nechet:
+            flag = False
+    action = random.choice(['Удалить','Добавить'])
+    str_mark = ''
+    if count_deleted_nechet == 0:
+        str_mark = 'меток'
+    elif count_deleted_nechet == 1:
+        str_mark = 'метку'
+    else:
+        str_mark = 'метки'
+
+    text_task = f'{action} {count_deleted_nechet} {str_mark} в середине массива, если в массиве нечетное количество меток, и ' \
+                f'{count_deleted_сhet}, если четное'
+    post_alg_wid.text_task_condition.insert("end", text_task)
+
+    # генерация тестов
+    table_tests = []
+    test_one = random.randint(3, 7)*2
+    if action == 'Удалить':
+        test_one_answer = u'\u2714'*(test_one-count_deleted_сhet)
+    else:
+        test_one_answer = u'\u2714' * (test_one + count_deleted_сhet)
+    table_tests.append(tuple([test_one, test_one_answer]))
+    test_two = random.randint(3, 7) * 2 + 1
+    if action == 'Удалить':
+        test_two_answer = u'\u2714' * (test_two - count_deleted_nechet)
+    else:
+        test_two_answer = u'\u2714' * (test_two + count_deleted_nechet)
+    table_tests.append(tuple([test_two, test_two_answer]))
+
+    create_table_tests(post_alg_wid, table_tests)
+
+
+def second_task_laboratory_work(post_alg_wid):
+    post_alg_wid.text_task_condition.delete("1.0", "end")
+    if post_alg_wid.tests:
+        post_alg_wid.tests.destroy()
+
+    # генерация условия задания 2
+    divisibility_number = random.randint(2,5)
+
+    text_task = f'Проверить, делится ли количество меток на {divisibility_number}. В конце работы рядом с сохраненным числом ' \
+                f'через пробел должна появляться метка, если число делится на {divisibility_number}, иначе метка не должна появляться'
+    post_alg_wid.text_task_condition.insert("end", text_task)
+
+    table_tests = []
+    flag = True
+    while flag:
+        test_one = random.randint(2, 10)
+        test_two = random.randint(2, 10)
+        if test_one != test_two and test_one % divisibility_number == 0 or test_two % divisibility_number == 1:
+            flag = False
+
+    test_one_answer = u'\u2714'*test_one + '  ' + u'\u2714'
+    table_tests.append(tuple([test_one, test_one_answer]))
+    test_two_answer = u'\u2714'*test_two
+    table_tests.append(tuple([test_two, test_two_answer]))
+
+    create_table_tests(post_alg_wid, table_tests)
+
+
+def third_task_laboratory_work(post_alg_wid):
+    post_alg_wid.text_task_condition.delete("1.0", "end")
+    if post_alg_wid.tests:
+        post_alg_wid.tests.destroy()
+
+    remains_number = random.randint(2, 5)
+
+    text_task = f'Найти остаток от деления количества меток на {remains_number}'
+    post_alg_wid.text_task_condition.insert("end", text_task)
+
+    table_tests = []
+    flag = True
+    while flag:
+        test_one = random.randint(2, 16)
+        test_two = random.randint(2, 16)
+        if test_one != test_two and test_one % remains_number != 0 and test_two % remains_number != 0:
+            flag = False
+
+    test_one_answer = u'\u2714' * (test_one%remains_number)
+    table_tests.append(tuple([test_one, test_one_answer]))
+    test_two_answer = u'\u2714' * (test_two%remains_number)
+    table_tests.append(tuple([test_two, test_two_answer]))
+
+    create_table_tests(post_alg_wid, table_tests)
+
+
+def fouth_task_laboratory_work(post_alg_wid):
+    post_alg_wid.text_task_condition.delete("1.0", "end")
+    if post_alg_wid.tests:
+        post_alg_wid.tests.destroy()
+
+    number_one = random.randint(1, 9)
+    number_two = random.randint(1, 9)
+
+    text_task = f'Написать программу, которая складывает два целых числа: {number_one} и {number_two}'
+    post_alg_wid.text_task_condition.insert("end", text_task)
+
+
 def simulator_post_machine(dict_windows):
     window_machine_post = dict_windows.get("window_machine_post")
 
@@ -757,7 +882,7 @@ def simulator_post_machine(dict_windows):
     photo_run = ImageTk.PhotoImage(img_run, master=window_machine_post)
     label_run = Tk.Label(window_machine_post, image=photo_run)
     label_run.image = photo_run
-    button_run = Tk.Button(master=window_machine_post, text="Старт  ", image=photo_run, compound="right", width=100,
+    button_run = Tk.Button(master=window_machine_post, text="Выполнить  ", image=photo_run, compound="right", width=150,
                            height=20, cursor="hand2", font=("Gabriola", "20"), state="normal",
                            command=lambda: process_post_alg(post_alg_obj, post_alg_wid))
     button_run.place(x=10, y=10)
@@ -769,7 +894,7 @@ def simulator_post_machine(dict_windows):
     button_step = Tk.Button(master=window_machine_post, text="Шаг  ", image=photo_step, compound="right", width=100,
                             height=20, cursor="hand2", font=("Gabriola", "20"), state="normal",
                             command=lambda: step_process_post_alg(post_alg_obj, post_alg_wid))
-    button_step.place(x=130, y=10)
+    button_step.place(x=180, y=10)
 
     img_stop = Image.open(Path.cwd() / "Image" / "Stop.png")
     photo_stop = ImageTk.PhotoImage(img_stop, master=window_machine_post)
@@ -778,7 +903,7 @@ def simulator_post_machine(dict_windows):
     button_stop = Tk.Button(master=window_machine_post, text="Остановить  ", image=photo_stop, compound="right",
                             width=150, height=20, font=("Gabriola", "20"), cursor="hand2",
                             command=lambda: stop_process(post_alg_obj, post_alg_wid))
-    button_stop.place(x=250, y=10)
+    button_stop.place(x=300, y=10)
 
     img_add = Image.open(Path.cwd() / "Image" / "addrow.png")
     photo_add = ImageTk.PhotoImage(img_add, master=window_machine_post)
@@ -819,21 +944,30 @@ def simulator_post_machine(dict_windows):
     tapemenu.add_command(label="Сохранить ленту", command=lambda: save_expression(post_alg_obj, post_alg_wid))
     tapemenu.add_command(label="Восстановить ленту", command=lambda: tape_recovery(post_alg_obj, post_alg_wid))
 
-    processmenu = Tk.Menu(master=mainmenu, tearoff=0)
-    processmenu.add_command(label="Запуск", command=lambda: process_post_alg(post_alg_obj, post_alg_wid))
-    processmenu.add_command(label="Выполнить шаг", command=lambda: step_process_post_alg(post_alg_obj, post_alg_wid))
-
     alphabetmenu = Tk.Menu(master=mainmenu, tearoff=0)
     alphabetmenu.add_radiobutton(label="Двузначный", command=lambda: changing_alphabet(post_alg_obj, post_alg_wid, 2))
     alphabetmenu.add_radiobutton(label="Трехзначный", command=lambda: changing_alphabet(post_alg_obj, post_alg_wid, 3))
+
+    labworkmenu = Tk.Menu(master=mainmenu, tearoff=0)
+    labworkmenu.add_command(label="Задание 1", command=lambda: first_task_laboratory_work(post_alg_wid))
+    labworkmenu.add_command(label="Задание 2", command=lambda: second_task_laboratory_work(post_alg_wid))
+    labworkmenu.add_command(label="Задание 3", command=lambda: third_task_laboratory_work(post_alg_wid))
+    labworkmenu.add_command(label="Задание 4", command=lambda: fouth_task_laboratory_work(post_alg_wid))
+    # labworkmenu.add_command(label="Задание 5")
+
+    processmenu = Tk.Menu(master=mainmenu, tearoff=0)
+    processmenu.add_command(label="Запуск", command=lambda: process_post_alg(post_alg_obj, post_alg_wid))
+    processmenu.add_command(label="Выполнить шаг", command=lambda: step_process_post_alg(post_alg_obj, post_alg_wid))
 
     helpmenu = Tk.Menu(master=mainmenu, tearoff=0)
     helpmenu.add_command(label="Как работать с тренажером", command=lambda: help_trainer(dict_windows))
 
     mainmenu.add_cascade(label="Файл", menu=filemenu)
     mainmenu.add_cascade(label="Лента", menu=tapemenu)
-    mainmenu.add_cascade(label="Выполнение", menu=processmenu)
     mainmenu.add_cascade(label="Алфавит", menu=alphabetmenu)
+    mainmenu.add_cascade(label="Лабораторная работа", menu=labworkmenu)
+    mainmenu.add_cascade(label="Выполнение", menu=processmenu)
+
     mainmenu.add_cascade(label="?", menu=helpmenu)
 
     window_machine_post.config(menu=mainmenu)

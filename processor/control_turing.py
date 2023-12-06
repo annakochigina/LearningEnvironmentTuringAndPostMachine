@@ -67,7 +67,7 @@ def start_control_turing(dict_windows):
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
-    img_con = Image.open(Path.cwd() / "Image" / "control.png")
+    img_con = Image.open(Path.cwd() / "Image" / "controltime.png")
     photo_con = ImageTk.PhotoImage(img_con, master=window_control_turing)
     label_con = Tk.Label(window_control_turing, image=photo_con)
     label_con.image = photo_con

@@ -8,6 +8,7 @@ class ObjPostAlg():
         self.frame_table_rules = frame_table_rules
         self.button_run = button_run
         self.button_step = button_step
+        self.tests = None
 
         self.list_label_ind = []
         self.last_save_output_elm = None

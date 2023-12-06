@@ -69,7 +69,7 @@ def start_control_post(dict_windows):
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
-    img_con = Image.open(Path.cwd() / "Image" / "control.png")
+    img_con = Image.open(Path.cwd() / "Image" / "controltime.png")
     photo_con = ImageTk.PhotoImage(img_con, master=window_control_post)
     label_con = Tk.Label(window_control_post, image=photo_con)
     label_con.image = photo_con

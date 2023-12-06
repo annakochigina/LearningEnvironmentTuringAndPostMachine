@@ -44,37 +44,32 @@ def destroy_objects(objects):
     return []
 
 
-def first_page_theory(window_for_algorithms, objects, widgets_theory):
+def first_page_theory(window_for_algorithms, widgets_theory):
     destroy_objects(widgets_theory)
 
     frame_text_theory = Tk.Frame(master=window_for_algorithms, border=10, width=1200, height=705,
                                  background=rgb_hack((1, 116, 64)))
     frame_text_theory.place(x=0, y=0)
-    objects.append(frame_text_theory)
     widgets_theory.append(frame_text_theory)
 
     text_turing = Tk.Label(master=frame_text_theory, justify="left", width=96, height=26,
                            font=("Bahnschrift Light", "16"), background="white")
     text_turing.place(x=10, y=10)
-    objects.append(text_turing)
     widgets_theory.append(text_turing)
 
     label_info_one = Tk.Label(master=text_turing, text=BRIEF_REFERENCE_TURING, justify="left",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_one.place(x=5, y=52)
-    objects.append(label_info_one)
     widgets_theory.append(label_info_one)
 
     label_info_two = Tk.Label(master=text_turing, text=BRIEF_REFERENCE_TURING_TWO, justify="right",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_two.place(x=375, y=390)
-    objects.append(label_info_two)
     widgets_theory.append(label_info_two)
 
     label_turing = Tk.Label(master=text_turing, text="Машина Тьюринга", justify="center", width=40, height=1,
                             font=("Bahnschrift Light", "24", "bold"), background="white")
     label_turing.place(x=0, y=5)
-    objects.append(label_turing)
     widgets_theory.append(label_turing)
 
     img_tur = Image.open(Path.cwd() / "Image" / "turing.png")
@@ -82,14 +77,12 @@ def first_page_theory(window_for_algorithms, objects, widgets_theory):
     label_tur = Tk.Label(text_turing, image=photo_tur)
     label_tur.image = photo_tur
     label_tur.place(x=810, y=10)
-    widgets_theory.append(label_tur)
 
     img_mach_tur = Image.open(Path.cwd() / "Image" / "machine_turing.png")
     photo_mach_tur = ImageTk.PhotoImage(img_mach_tur, master=text_turing)
     label_mach_tur = Tk.Label(text_turing, image=photo_mach_tur)
     label_mach_tur.image = photo_mach_tur
     label_mach_tur.place(x=10, y=390)
-    widgets_theory.append(label_mach_tur)
 
     img_next = Image.open(Path.cwd() / "Image" / "next.png")
     photo_next = ImageTk.PhotoImage(img_next, master=window_for_algorithms)
@@ -97,37 +90,32 @@ def first_page_theory(window_for_algorithms, objects, widgets_theory):
     label_next.image = photo_next
     button_next = Tk.Button(master=window_for_algorithms, image=photo_next, width=40, height=40, background="white",
                             relief="flat", cursor="hand2",
-                            command=lambda: second_page_theory(window_for_algorithms, objects, widgets_theory))
+                            command=lambda: second_page_theory(window_for_algorithms, widgets_theory))
     button_next.place(x=1150, y=705)
     widgets_theory.append(button_next)
-    objects.append(button_next)
 
 
-def second_page_theory(window_for_algorithms, objects, widgets_theory):
+def second_page_theory(window_for_algorithms, widgets_theory):
     destroy_objects(widgets_theory)
 
     frame_text_theory = Tk.Frame(master=window_for_algorithms, border=10, width=1200, height=705,
                                  background=rgb_hack((1, 116, 64)))
     frame_text_theory.place(x=0, y=0)
-    objects.append(frame_text_theory)
     widgets_theory.append(frame_text_theory)
 
     text_turing = Tk.Label(master=frame_text_theory, justify="left", width=96, height=26,
                            font=("Bahnschrift Light", "16"), background="white")
     text_turing.place(x=10, y=10)
-    objects.append(text_turing)
     widgets_theory.append(text_turing)
 
     label_turing = Tk.Label(master=text_turing, text="Что собой представляет машина Тьюринга?", justify="center",
                             width=40, height=1, font=("Bahnschrift Light", "24", "bold"), background="white")
     label_turing.place(x=0, y=5)
-    objects.append(label_turing)
     widgets_theory.append(label_turing)
 
     label_info_one = Tk.Label(master=text_turing, text=DESCRIPTION_ALGORITHM_TURING_ONE, justify="left",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_one.place(x=5, y=52)
-    objects.append(label_info_one)
     widgets_theory.append(label_info_one)
 
     img_tape = Image.open(Path.cwd() / "Image" / "tape.png")
@@ -140,7 +128,6 @@ def second_page_theory(window_for_algorithms, objects, widgets_theory):
     label_info_two = Tk.Label(master=text_turing, text=DESCRIPTION_ALGORITHM_TURING_TWO, justify="left",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_two.place(x=5, y=230)
-    objects.append(label_info_two)
     widgets_theory.append(label_info_two)
 
     img_tappe = Image.open(Path.cwd() / "Image" / "tappe.png")
@@ -163,7 +150,7 @@ def second_page_theory(window_for_algorithms, objects, widgets_theory):
     label_previos.image = photo_previos
     button_previos = Tk.Button(master=window_for_algorithms, image=photo_previos, width=40, height=40, background="white",
                             relief="flat", cursor="hand2",
-                            command=lambda: first_page_theory(window_for_algorithms, objects, widgets_theory))
+                            command=lambda: first_page_theory(window_for_algorithms, widgets_theory))
     button_previos.place(x=55, y=705)
     widgets_theory.append(button_previos)
 
@@ -172,7 +159,7 @@ def theory_turing(objects, dict_windows):
     destroy_objects(objects)
     window_for_algorithms = dict_windows["window_for_algorithms"]
     widgets_theory = []
-    first_page_theory(window_for_algorithms, objects, widgets_theory)
+    first_page_theory(window_for_algorithms, widgets_theory)
 
     img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
     photo_exit = ImageTk.PhotoImage(img_exit, master=window_for_algorithms)
@@ -279,34 +266,28 @@ def menu_turing(objects, dict_windows):  # меню для работы с ма�
     window_for_algorithms.protocol("WM_DELETE_WINDOW", lambda: return_first_form(dict_windows))
 
 
-def create_window_machine_post(dict_windows):
-    dict_windows["window_for_algorithms"].withdraw()
-    window_machine_postg = post_machine.create_machine_post(dict_windows)
-
-
-def brief_reference_post(objects, dict_windows):
-    destroy_objects(objects)
-    window_for_algorithms = dict_windows["window_for_algorithms"]
+def first_page_theory_post(window_for_algorithms, widgets_theory):
+    destroy_objects(widgets_theory)
 
     frame_text_theory = Tk.Frame(master=window_for_algorithms, border=10, width=1200, height=705,
                                  background=rgb_hack((1, 116, 64)))
     frame_text_theory.place(x=0, y=0)
-    objects.append(frame_text_theory)
+    widgets_theory.append(frame_text_theory)
 
     text_post = Tk.Label(master=frame_text_theory, justify="left", width=96, height=26,
                          font=("Bahnschrift Light", "16"), background="white")
     text_post.place(x=10, y=10)
-    objects.append(text_post)
+    widgets_theory.append(text_post)
 
     label_turing = Tk.Label(master=text_post, text="Машина Поста", justify="center", width=40, height=1,
                             font=("Bahnschrift Light", "24", "bold"), background="white")
     label_turing.place(x=0, y=5)
-    objects.append(label_turing)
+    widgets_theory.append(label_turing)
 
     label_info_one = Tk.Label(master=text_post, text=BRIEF_REFERENCE_POST, justify="left",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_one.place(x=5, y=52)
-    objects.append(label_info_one)
+    widgets_theory.append(label_info_one)
 
     img_post = Image.open(Path.cwd() / "Image" / "post.png")
     photo_post = ImageTk.PhotoImage(img_post, master=text_post)
@@ -323,41 +304,41 @@ def brief_reference_post(objects, dict_windows):
     label_info_two = Tk.Label(master=text_post, text=BRIEF_REFERENCE_POST_TWO, justify="right",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_two.place(x=375, y=390)
-    objects.append(label_info_two)
+    widgets_theory.append(label_info_two)
 
-    img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
-    photo_exit = ImageTk.PhotoImage(img_exit, master=window_for_algorithms)
-    label_exit = Tk.Label(window_for_algorithms, image=photo_exit)
-    label_exit.image = photo_exit
-    button_exit = Tk.Button(master=window_for_algorithms, image=photo_exit, width=40, height=40, background="white",
-                            relief="flat", cursor="hand2", command=lambda: menu_post(objects, dict_windows))
-    button_exit.place(x=5, y=705)
-    objects.append(button_exit)
+    img_next = Image.open(Path.cwd() / "Image" / "next.png")
+    photo_next = ImageTk.PhotoImage(img_next, master=window_for_algorithms)
+    label_next = Tk.Label(window_for_algorithms, image=photo_next)
+    label_next.image = photo_next
+    button_next = Tk.Button(master=window_for_algorithms, image=photo_next, width=40, height=40, background="white",
+                            relief="flat", cursor="hand2",
+                            command=lambda: second_page_theory_post(window_for_algorithms, widgets_theory))
+    button_next.place(x=1150, y=705)
+    widgets_theory.append(button_next)
 
 
-def description_algorithm_post(objects, dict_windows):
-    destroy_objects(objects)
-    window_for_algorithms = dict_windows["window_for_algorithms"]
+def second_page_theory_post(window_for_algorithms, widgets_theory):
+    destroy_objects(widgets_theory)
 
     frame_text_theory = Tk.Frame(master=window_for_algorithms, border=10, width=1200, height=705,
                                  background=rgb_hack((1, 116, 64)))
     frame_text_theory.place(x=0, y=0)
-    objects.append(frame_text_theory)
+    widgets_theory.append(frame_text_theory)
 
     text_post = Tk.Label(master=frame_text_theory, justify="left", width=96, height=26,
                          font=("Bahnschrift Light", "16"), background="white")
     text_post.place(x=10, y=10)
-    objects.append(text_post)
+    widgets_theory.append(text_post)
 
     label_post = Tk.Label(master=text_post, text="Что собой представляет машина Поста?", justify="center", width=40,
                           height=1, font=("Bahnschrift Light", "24", "bold"), background="white")
     label_post.place(x=0, y=5)
-    objects.append(label_post)
+    widgets_theory.append(label_post)
 
     label_info_one = Tk.Label(master=text_post, text=DESCRIPTION_ALGORITHM_POST_ONE, justify="left",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_one.place(x=5, y=50)
-    objects.append(label_info_one)
+    widgets_theory.append(label_info_one)
 
     img_tapep = Image.open(Path.cwd() / "Image" / "tapep.png")
     photo_tapep = ImageTk.PhotoImage(img_tapep, master=text_post)
@@ -368,13 +349,30 @@ def description_algorithm_post(objects, dict_windows):
     label_info_two = Tk.Label(master=text_post, text=DESCRIPTION_ALGORITHM_POST_TWO, justify="left",
                               font=("Bahnschrift Light", "16"), background="white")
     label_info_two.place(x=5, y=350)
-    objects.append(label_info_two)
+    widgets_theory.append(label_info_one)
 
     img_tablep = Image.open(Path.cwd() / "Image" / "tablep.png")
     photo_tablep = ImageTk.PhotoImage(img_tablep, master=text_post)
     label_tablep = Tk.Label(text_post, image=photo_tablep)
     label_tablep.image = photo_tablep
     label_tablep.place(x=740, y=410)
+
+    img_previos = Image.open(Path.cwd() / "Image" / "previos.png")
+    photo_previos = ImageTk.PhotoImage(img_previos, master=window_for_algorithms)
+    label_previos = Tk.Label(window_for_algorithms, image=photo_previos)
+    label_previos.image = photo_previos
+    button_previos = Tk.Button(master=window_for_algorithms, image=photo_previos, width=40, height=40, background="white",
+                            relief="flat", cursor="hand2",
+                            command=lambda: first_page_theory_post(window_for_algorithms, widgets_theory))
+    button_previos.place(x=55, y=705)
+    widgets_theory.append(button_previos)
+
+
+def theory_post(objects, dict_windows):
+    destroy_objects(objects)
+    window_for_algorithms = dict_windows["window_for_algorithms"]
+    widgets_theory = []
+    first_page_theory_post(window_for_algorithms, widgets_theory)
 
     img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
     photo_exit = ImageTk.PhotoImage(img_exit, master=window_for_algorithms)
@@ -384,6 +382,11 @@ def description_algorithm_post(objects, dict_windows):
                             relief="flat", cursor="hand2", command=lambda: menu_post(objects, dict_windows))
     button_exit.place(x=5, y=705)
     objects.append(button_exit)
+
+
+def create_window_machine_post(dict_windows):
+    dict_windows["window_for_algorithms"].withdraw()
+    window_machine_postg = post_machine.create_machine_post(dict_windows)
 
 
 def create_window_post_control(dict_windows):
@@ -426,7 +429,7 @@ def menu_post(objects, dict_windows):  # меню для работы с маш�
     label_theory = Tk.Label(window_for_algorithms, image=photo_theory)
     label_theory.image = photo_theory
     button_theory = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_theory, width=200, height=200,
-                              cursor="hand2", command=lambda: brief_reference_post(objects, dict_windows))
+                              cursor="hand2", command=lambda: theory_post(objects, dict_windows))
     button_theory.place(x=125, y=450)
     objects.append(button_theory)
 
@@ -435,8 +438,7 @@ def menu_post(objects, dict_windows):  # меню для работы с маш�
     label_algorithm = Tk.Label(window_for_algorithms, image=photo_algorithm)
     label_algorithm.image = photo_algorithm
     button_algorithm = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_algorithm, width=200,
-                                 height=200, cursor="hand2",
-                                 command=lambda: description_algorithm_post(objects, dict_windows))
+                                 height=200, cursor="hand2")
     button_algorithm.place(x=375, y=450)
     objects.append(button_algorithm)
 

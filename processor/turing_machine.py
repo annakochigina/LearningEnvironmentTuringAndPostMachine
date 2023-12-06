@@ -737,7 +737,7 @@ def help_trainer(dict_windows):
     label_info.place(x=5, y=5)
 
 
-def first_task_laboratory_work(turing_alg_obj, turing_alg_wid):
+def first_task_laboratory_work(turing_alg_wid):
 
     turing_alg_wid.text_task_condition.delete("1.0", "end")
     if turing_alg_wid.tests:
@@ -745,7 +745,7 @@ def first_task_laboratory_work(turing_alg_obj, turing_alg_wid):
 
     #генерация условия задания 1
     basis = random.randint(3, 5)
-    free_member = random.randint(0, basis-1)
+    free_member = random.randint(1, basis-1)
     text_task = f'Составьте программу для машины Тьюринга, которая приписывает букву «И» в начале строки из палочек, ' \
                 f'если количество палочек в строке представимо в виде {basis}k+{free_member} и букву «Л», если нет'
     turing_alg_wid.text_task_condition.insert("end", text_task)
@@ -765,18 +765,7 @@ def first_task_laboratory_work(turing_alg_obj, turing_alg_wid):
         test_two_answer = 'Л'+'|'*test_two
     table_tests.append(tuple([test_two, test_two_answer]))
 
-    test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
-    test.place(x=10, y=40)
-    turing_alg_wid.tests = test
-
-    columns = ("input", "output")
-    tree = ttk.Treeview(master=test, columns=columns, show="headings")
-    tree.pack(fill="both", expand=1)
-    tree.heading("input", text="input")
-    tree.heading("output", text="output")
-
-    for test in table_tests:
-        tree.insert("", "end", values=test)
+    create_table_tests(turing_alg_wid, table_tests)
 
 
 def convert_to_base(n, base):
@@ -788,7 +777,7 @@ def convert_to_base(n, base):
     return digits
 
 
-def second_task_laboratory_work(turing_alg_obj, turing_alg_wid):
+def second_task_laboratory_work(turing_alg_wid):
 
     turing_alg_wid.text_task_condition.delete("1.0", "end")
     if turing_alg_wid.tests:
@@ -809,21 +798,10 @@ def second_task_laboratory_work(turing_alg_obj, turing_alg_wid):
 
     table_tests.append(tuple([input_test_one, result_decimal]))
 
-    test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
-    test.place(x=10, y=40)
-    turing_alg_wid.tests = test
-
-    columns = ("input", "output")
-    tree = ttk.Treeview(master=test, columns=columns, show="headings")
-    tree.pack(fill="both", expand=1)
-    tree.heading("input", text="input")
-    tree.heading("output", text="output")
-
-    for test in table_tests:
-        tree.insert("", "end", values=test)
+    create_table_tests(turing_alg_wid, table_tests)
 
 
-def third_task_laboratory_work(turing_alg_obj, turing_alg_wid):
+def third_task_laboratory_work(turing_alg_wid):
     turing_alg_wid.text_task_condition.delete("1.0", "end")
     if turing_alg_wid.tests:
         turing_alg_wid.tests.destroy()
@@ -844,21 +822,10 @@ def third_task_laboratory_work(turing_alg_obj, turing_alg_wid):
     test_two_answer = test_two // divider
     table_tests.append(tuple([test_two, test_two_answer]))
 
-    test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
-    test.place(x=10, y=40)
-    turing_alg_wid.tests = test
-
-    columns = ("input", "output")
-    tree = ttk.Treeview(master=test, columns=columns, show="headings")
-    tree.pack(fill="both", expand=1)
-    tree.heading("input", text="input")
-    tree.heading("output", text="output")
-
-    for test in table_tests:
-        tree.insert("", "end", values=test)
+    create_table_tests(turing_alg_wid, table_tests)
 
 
-def fourth_task_laboratory_work(turing_alg_obj, turing_alg_wid):
+def fourth_task_laboratory_work(turing_alg_wid):
     turing_alg_wid.text_task_condition.delete("1.0", "end")
     if turing_alg_wid.tests:
         turing_alg_wid.tests.destroy()
@@ -874,10 +841,7 @@ def fourth_task_laboratory_work(turing_alg_obj, turing_alg_wid):
     # генерация тестов
     table_tests = []
     test_one = convert_to_base(random.randint(100, 500), basis)
-    print(type(test_one))
-    print(test_one)
     count_one = test_one.count(int(increase_by_number))
-    print(count_one)
 
     if count_one > 0:
         if side == 'справа':
@@ -902,8 +866,59 @@ def fourth_task_laboratory_work(turing_alg_obj, turing_alg_wid):
 
     table_tests.append(tuple([test_two, test_two]))
 
+    create_table_tests(turing_alg_wid, table_tests)
+
+
+def fifth_task_laboratory_work(turing_alg_wid):
+    turing_alg_wid.text_task_condition.delete("1.0", "end")
+    if turing_alg_wid.tests:
+        turing_alg_wid.tests.destroy()
+
+    # генерация условия задания 5
+    coefficient_a = random.randint(2, 4)
+    free_member = random.randint(1, 3)
+    second_expression = random.randint(2, 4)
+    number_a = random.randint(2, 4)
+    operation = random.choice(['+', '-'])
+
+    mass_sign = ['>', '≥', '<', '≤']
+    sign = random.choice(mass_sign)
+    opposite_sign = ['≤','<','≥','>']
+    index_sign = mass_sign.index(sign)
+
+    text_task = f'Составьте программу для машины Тьюринга, которая вычисляет функцию: \n' \
+                f'          f(a) = {coefficient_a}a {operation} {free_member}, если a{sign}{number_a} \n' \
+                f'                 {second_expression}, если a{opposite_sign[index_sign]}{number_a}'
+    turing_alg_wid.text_task_condition.insert("end", text_task)
+
+    # генерация тестов
+    table_tests = []
+    test_one = random.randint(number_a+1, 10)
+    if sign == '>' or sign == '≥':
+        if operation == '+':
+            test_answer_one = coefficient_a*test_one + free_member
+        else:
+            test_answer_one = coefficient_a * test_one - free_member
+    else:
+        test_answer_one = second_expression
+    table_tests.append(tuple([test_one, test_answer_one]))
+
+    test_two = random.randint(1, number_a-1)
+    if sign == '<' or sign == '≤':
+        if operation == '+':
+            test_answer_two = coefficient_a*test_one + free_member
+        else:
+            test_answer_two = coefficient_a * test_one - free_member
+    else:
+        test_answer_two = second_expression
+    table_tests.append(tuple([test_two, test_answer_two]))
+
+    create_table_tests(turing_alg_wid, table_tests)
+
+
+def create_table_tests(turing_alg_wid, table_tests):
     test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
-    test.place(x=10, y=40)
+    test.place(x=15, y=45)
     turing_alg_wid.tests = test
 
     columns = ("input", "output")
@@ -914,7 +929,6 @@ def fourth_task_laboratory_work(turing_alg_obj, turing_alg_wid):
 
     for test in table_tests:
         tree.insert("", "end", values=test)
-
 
 def simulator_turing_machine(dict_windows):
     window_machine_turing = dict_windows.get("window_machine_turing")
@@ -1013,7 +1027,7 @@ def simulator_turing_machine(dict_windows):
     photo_run = ImageTk.PhotoImage(img_run, master=window_machine_turing)
     label_run = Tk.Label(window_machine_turing, image=photo_run)
     label_run.image = photo_run
-    button_run = Tk.Button(master=window_machine_turing, text="Старт  ", image=photo_run, compound="right", width=100,
+    button_run = Tk.Button(master=window_machine_turing, text="Выполнить  ", image=photo_run, compound="right", width=150,
                            height=20, cursor="hand2", font=("Gabriola", "20"), state="normal",
                            command=lambda: process_turing_alg(turing_alg_obj, turing_alg_wid))
     button_run.place(x=10, y=10)
@@ -1025,7 +1039,7 @@ def simulator_turing_machine(dict_windows):
     button_step = Tk.Button(master=window_machine_turing, text="Шаг  ", image=photo_step, compound="right", width=100,
                             height=20, cursor="hand2", font=("Gabriola", "20"), state="normal",
                             command=lambda: step_process_turing_alg(turing_alg_obj, turing_alg_wid))
-    button_step.place(x=130, y=10)
+    button_step.place(x=180, y=10)
 
     img_stop = Image.open(Path.cwd() / "Image" / "Stop.png")
     photo_stop = ImageTk.PhotoImage(img_stop, master=window_machine_turing)
@@ -1034,7 +1048,7 @@ def simulator_turing_machine(dict_windows):
     button_stop = Tk.Button(master=window_machine_turing, text="Остановить  ", image=photo_stop, compound="right",
                             width=150, height=20, cursor="hand2", font=("Gabriola", "20"),
                             command=lambda: stop_process(turing_alg_obj, turing_alg_wid))
-    button_stop.place(x=250, y=10)
+    button_stop.place(x=300, y=10)
 
     img_add = Image.open(Path.cwd() / "Image" / "add.png")
     photo_add = ImageTk.PhotoImage(img_add, master=window_machine_turing)
@@ -1079,11 +1093,11 @@ def simulator_turing_machine(dict_windows):
     tapemenu.add_command(label="Восстановить ленту", command=lambda: tape_recovery(turing_alg_obj, turing_alg_wid))
 
     labworkmenu = Tk.Menu(master=mainmenu, tearoff=0)
-    labworkmenu.add_command(label="Задание 1", command=lambda: first_task_laboratory_work(turing_alg_obj, turing_alg_wid))
-    labworkmenu.add_command(label="Задание 2", command=lambda: second_task_laboratory_work(turing_alg_obj, turing_alg_wid))
-    labworkmenu.add_command(label="Задание 3", command=lambda: third_task_laboratory_work(turing_alg_obj, turing_alg_wid))
-    labworkmenu.add_command(label="Задание 4", command=lambda: fourth_task_laboratory_work(turing_alg_obj, turing_alg_wid))
-    labworkmenu.add_command(label="Задание 5")
+    labworkmenu.add_command(label="Задание 1", command=lambda: first_task_laboratory_work(turing_alg_wid))
+    labworkmenu.add_command(label="Задание 2", command=lambda: second_task_laboratory_work(turing_alg_wid))
+    labworkmenu.add_command(label="Задание 3", command=lambda: third_task_laboratory_work(turing_alg_wid))
+    labworkmenu.add_command(label="Задание 4", command=lambda: fourth_task_laboratory_work(turing_alg_wid))
+    labworkmenu.add_command(label="Задание 5", command=lambda: fifth_task_laboratory_work(turing_alg_wid))
 
     processmenu = Tk.Menu(master=mainmenu, tearoff=0)
     processmenu.add_command(label="Запуск", command=lambda: process_turing_alg(turing_alg_obj, turing_alg_wid))
