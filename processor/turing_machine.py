@@ -138,7 +138,6 @@ def tape_recovery(turing_alg_obj, turing_alg_wid):
         place_x += 60
 
     if turing_alg_obj.alphabetical != turing_alg_wid.infinity_tape[turing_alg_wid.output_elm_ids[0]].alphabetical:
-        print("алфавиты не совпадают")
         turing_alg_obj.alphabetical = turing_alg_wid.infinity_tape[turing_alg_wid.output_elm_ids[0]].alphabetical
 
         delete_rules_table(turing_alg_obj)
@@ -181,7 +180,6 @@ def create_and_fill_infinity_tape(turing_alg_obj, turing_alg_wid, expression_inf
 
     min_ind, max_ind = min(expression_info.keys()), max(expression_info.keys())
     min_ind, max_ind = min([int(min_ind), pointer_index - 9]), max([int(max_ind), pointer_index + 10])
-    print(f"min {min_ind} and max {max_ind}")
 
     turing_alg_wid.output_elm_ids = [pointer_index - 9, pointer_index + 10]
 
@@ -232,30 +230,6 @@ def read_example(turing_alg_obj, turing_alg_wid, dict_windows):
     with open(filename, encoding='utf-8') as f:
         example_info = json.load(f)
 
-    task_condition = example_info.get("task_condition")
-    turing_alg_wid.text_task_condition.delete("1.0", "end")
-    turing_alg_wid.text_task_condition.insert("end", task_condition)
-
-    # if len(example_info) == 2 and example_info["task_condition"] and example_info["tests"]:
-    #     test = Tk.Frame(master=turing_alg_wid.text_task_condition, background="white", border=10)
-    #     test.place(x=10, y=40)
-    #
-    #     turing_alg_wid.tests = test
-    #
-    #     table_val = example_info.get("tests")
-    #     table_tests = []
-    #     for key in table_val:
-    #         table_tests.append(tuple([key, table_val[key]]))
-    #     columns = ("input", "output")
-    #     tree = ttk.Treeview(master=test, columns=columns, show="headings")
-    #     tree.pack(fill="both", expand=1)
-    #     tree.heading("input", text="input")
-    #     tree.heading("output", text="output")
-    #
-    #     for test in table_tests:
-    #         tree.insert("", "end", values=test)
-    #
-    # elif len(example_info) > 1:
     cleaning_widgets(turing_alg_obj, turing_alg_wid)
 
     alphabetical_text = example_info.get("alphabetical")
@@ -263,6 +237,8 @@ def read_example(turing_alg_obj, turing_alg_wid, dict_windows):
     pointer_index = example_info.get("pointer_index")
     table_rules = example_info.get("table_rules")
     expression_info = example_info.get("expression")
+    task_condition = example_info.get("task_condition")
+    turing_alg_wid.text_task_condition.insert("end", task_condition)
 
     turing_alg_obj.pointer_index = pointer_index
     turing_alg_obj.counter_states = counter_states
@@ -350,6 +326,10 @@ def cleaning_infinity_tape(turing_alg_wid):
 
 def cleaning_widgets(turing_alg_obj, turing_alg_wid):
     turing_alg_wid.output_elm_ids = [-9, 9]
+
+    turing_alg_wid.list_lbl_comments[0]["text"] = ""
+    turing_alg_wid.list_lbl_comments[1]["text"] = ""
+    turing_alg_wid.list_lbl_comments[2]["text"] = ""
 
     if turing_alg_wid.tests:
         turing_alg_wid.tests.destroy()
@@ -439,9 +419,6 @@ def creating_rules_table(turing_alg_obj, turing_alg_wid):
             cell = Tk.Entry(master=turing_alg_wid.frame_table_rules, width=5, font=("Arial", "16", "italic", "bold"),
                             relief="raised")
             if j == 0 and i > 0:
-                # if (turing_alg_obj.alphabetical[i - 1] == ' '):
-                #     cell.insert("end", 'λ')
-                # else: вставить знак лямбды
                 cell.insert("end", turing_alg_obj.alphabetical[i - 1])
                 cell["state"] = "disabled"
                 cell["justify"] = "center"
@@ -495,8 +472,12 @@ def fake_step(turing_alg_obj, turing_alg_wid):
         sym = "."
         s = "не передвигаем"
     else:
+        if turing_alg_obj.pointer_value == ' ':
+            elem = 'λ'
+        else:
+            elem = turing_alg_obj.pointer_value
         messagebox.showerror(title="Ошибка",
-                             message=f"Нет направления перехода в ячейке ({turing_alg_obj.pointer_value}, Q{turing_alg_obj.index_states})",
+                             message=f"Не указан переход в ячейке ({elem}, Q{turing_alg_obj.index_states})",
                              parent=turing_alg_wid.frame_table_rules)
         turing_alg_obj.index_states = 0
         return True
@@ -511,10 +492,8 @@ def fake_step(turing_alg_obj, turing_alg_wid):
         turing_alg_obj.index_states = 0
         return True
 
-    turing_alg_wid.list_lbl_comments[0][
-        "text"] = f"1. Заменяем {turing_alg_obj.pointer_index}-й элемент на {elem_replace}"
-    turing_alg_wid.list_lbl_comments[1]["text"] = f"""2. Указатель на бесконечной
-ленте {s}"""
+    turing_alg_wid.list_lbl_comments[0]["text"] = f"1. Заменяем {turing_alg_obj.pointer_index}-й элемент\nна {elem_replace}"
+    turing_alg_wid.list_lbl_comments[1]["text"] = f"2. Указатель на бесконечной ленте\n{s}"
     turing_alg_wid.list_lbl_comments[2]["text"] = f"3. Переходим в состояние Q{turing_alg_obj.index_states}"
 
     return False
@@ -540,8 +519,12 @@ def step_alg(turing_alg_obj, turing_alg_wid):
         sym = "."
         s = "не передвигаем"
     else:
+        if turing_alg_obj.pointer_value == ' ':
+            elem = 'λ'
+        else:
+            elem = turing_alg_obj.pointer_value
         messagebox.showerror(title="Ошибка",
-                             message=f"Нет направления перехода в ячейке ({turing_alg_obj.pointer_value}, Q{turing_alg_obj.index_states})",
+                             message=f"Не указан переход в ячейке ({elem}, Q{turing_alg_obj.index_states})",
                              parent=turing_alg_wid.frame_table_rules)
         turing_alg_obj.index_states = 0
         return True
@@ -562,16 +545,37 @@ def step_alg(turing_alg_obj, turing_alg_wid):
     turing_alg_obj.set_val_for_cur_elem(elem_replace, turing_alg_wid)
 
     turing_alg_obj.move_pointer(sym, turing_alg_obj, turing_alg_wid)
+    next_rule = turing_alg_obj.get_current_rule()
 
-    turing_alg_wid.list_lbl_comments[0][
-        "text"] = f"1. Заменяем {turing_alg_obj.pointer_index}-ый элемент на {elem_replace}"
-    turing_alg_wid.list_lbl_comments[1]["text"] = f"""2. Указатель на бесконечной
-ленте 
-{s}"""
-    turing_alg_wid.list_lbl_comments[2]["text"] = f"3. Переходим в состояние Q{turing_alg_obj.index_states}"
+    if ">" in next_rule:
+        sym = ">"
+        s = "передвигаем вправо"
+    elif "<" in next_rule:
+        sym = "<"
+        s = "передвигаем влево"
+    elif "." in next_rule:
+        sym = "."
+        s = "не передвигаем"
+
+    # next_ind = next_rule.index(sym)
+    # next_elem_replace = next_rule[:next_ind]  # элемент, на который нужно заменить
+    #
+    # turing_alg_wid.list_lbl_comments[0]["text"] = f"1. Заменяем {turing_alg_obj.pointer_index}-ый элемент на {next_elem_replace}"
+    # turing_alg_wid.list_lbl_comments[1]["text"] = f"2. Указатель на бесконечной ленте\n{s}"
+    # turing_alg_wid.list_lbl_comments[2]["text"] = f"3. Переходим в состояние Q{int(next_rule[next_ind + 1:])}"
 
     if turing_alg_obj.index_states != 0:
         turing_alg_obj.color_current_rule()
+
+        next_ind = next_rule.index(sym)
+        next_elem_replace = next_rule[:next_ind]  # элемент, на который нужно заменить
+
+        if next_elem_replace == '':
+            next_elem_replace = 'пустой символ'
+        turing_alg_wid.list_lbl_comments[0][
+            "text"] = f"1. Заменяем {turing_alg_obj.pointer_index}-ый элемент\nна {next_elem_replace}"
+        turing_alg_wid.list_lbl_comments[1]["text"] = f"2. Указатель на бесконечной ленте\n{s}"
+        turing_alg_wid.list_lbl_comments[2]["text"] = f"3. Переходим в состояние Q{int(next_rule[next_ind + 1:])}"
 
     return False
 
@@ -587,7 +591,6 @@ def step_process_turing_alg(turing_alg_obj, turing_alg_wid):
         expression[i] = str(turing_alg_wid.infinity_tape[i].selected_value.get())
 
     turing_alg_obj.set_expression(expression)
-
     if turing_alg_obj.index_states != 0:
         if turing_alg_obj.counter_step == -1:
             turing_alg_obj.color_current_rule()
@@ -627,7 +630,6 @@ def stop_process(turing_alg_obj, turing_alg_wid):
     for key in turing_alg_obj.table_rules:
         for cell in turing_alg_obj.table_rules[key]:
             cell["background"] = 'white'
-    print(turing_alg_obj.stop_process)
 
     turing_alg_wid.button_run["state"] = "normal"
     turing_alg_wid.button_step["state"] = "normal"
@@ -721,7 +723,7 @@ def help_trainer(dict_windows):
     window.title("Как работать с тренажером?")
     window_width_center = (window.winfo_screenwidth()) // 2 - 350
     window_height_center = (window.winfo_screenheight()) // 2 - 300
-    window.geometry("700x600+{}+{}".format(window_width_center, window_height_center))
+    window.geometry("700x650+{}+{}".format(window_width_center, window_height_center))
     window.config(background="white")
     window.resizable(width=False, height=False)
 
@@ -729,7 +731,7 @@ def help_trainer(dict_windows):
                      background="white")
     label.place(x=150, y=5)
 
-    text = Tk.Frame(master=window, width=675, height=540, background="white")
+    text = Tk.Frame(master=window, width=675, height=600, background="white")
     text.place(x=10, y=50)
 
     label_info = Tk.Label(master=text, text=TRAINER, justify="left", font=("Bahnschrift Light", "12"),
@@ -747,7 +749,7 @@ def first_task_laboratory_work(turing_alg_wid):
     basis = random.randint(3, 5)
     free_member = random.randint(1, basis-1)
     text_task = f'Составьте программу для машины Тьюринга, которая приписывает букву «И» в начале строки из палочек, ' \
-                f'если количество палочек в строке представимо в виде {basis}k+{free_member} и букву «Л», если нет'
+                f'если количество палочек в строке представимо в \nвиде {basis}k+{free_member} и букву «Л», если нет'
     turing_alg_wid.text_task_condition.insert("end", text_task)
 
     #генерация тестов
@@ -809,7 +811,7 @@ def third_task_laboratory_work(turing_alg_wid):
     # генерация условия задания 3
     divider = random.randint(3, 7)
     text_task = f'Составьте программу для машины Тьюринга, которая вычисляет функцию [a/{divider}],  ' \
-                f'где [ ] означает целую часть, а число представлено на ленте в виде группы палочек'
+                f'где [ ] означает целую часть, а число представлено на ленте в виде\nгруппы палочек'
     turing_alg_wid.text_task_condition.insert("end", text_task)
 
     # генерация тестов
@@ -835,7 +837,7 @@ def fourth_task_laboratory_work(turing_alg_wid):
     increase_by_number = str(random.randint(2, basis - 1)) #какие цифры ищем
     side = random.choice(['справа','слева'])
     text_task = f'Составьте программу для машины Тьюринга, которая приписывает {side} к числу в ' \
-                f'{basis}-ичной системе счисления записанному на ленте столько палочек, сколько в нем цифр «{increase_by_number}»'
+                f'{basis}-ичной системе счисления записанному на ленте столько палочек,\nсколько в нем цифр «{increase_by_number}»'
     turing_alg_wid.text_task_condition.insert("end", text_task)
 
     # генерация тестов
@@ -921,14 +923,15 @@ def create_table_tests(turing_alg_wid, table_tests):
     test.place(x=15, y=45)
     turing_alg_wid.tests = test
 
-    columns = ("input", "output")
+    columns = ("Входной параметр", "Результат")
     tree = ttk.Treeview(master=test, columns=columns, show="headings")
     tree.pack(fill="both", expand=1)
-    tree.heading("input", text="input")
-    tree.heading("output", text="output")
+    tree.heading("Входной параметр", text="Входной параметр")
+    tree.heading("Результат", text="Результат")
 
     for test in table_tests:
         tree.insert("", "end", values=test)
+
 
 def simulator_turing_machine(dict_windows):
     window_machine_turing = dict_windows.get("window_machine_turing")
@@ -959,24 +962,24 @@ def simulator_turing_machine(dict_windows):
     scrollbary = ttk.Scrollbar(master=container, orient=Tk.VERTICAL, command=canvas.yview)
     scrollbarx = ttk.Scrollbar(master=container, orient=Tk.HORIZONTAL, command=canvas.xview)
 
-    frame_table_rules = Tk.Frame(master=canvas, width=800, height=250, border=10, background=rgb_hack((1, 116, 64)))
+    frame_table_rules = Tk.Frame(master=canvas, width=750, height=250, border=10, background=rgb_hack((1, 116, 64)))
     frame_table_rules.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
     canvas.create_window((0, 0), window=frame_table_rules, anchor="nw")
     canvas.configure(yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
 
-    container.place(x=10, y=430, width=850, height=250)
+    container.place(x=10, y=430, width=800, height=250)
     canvas.pack(side="left", expand=True)
 
     scrollbarx.pack(side="bottom", fill=Tk.X)
     scrollbary.pack(side="right", fill=Tk.Y)
 
-    frame_comments = Tk.Frame(master=window_machine_turing, width=305, height=310, background=rgb_hack((1, 116, 64)),
+    frame_comments = Tk.Frame(master=window_machine_turing, width=350, height=310, background=rgb_hack((1, 116, 64)),
                               border=10)
-    frame_comments.place(x=875, y=430)
+    frame_comments.place(x=830, y=430)
     label_com = Tk.Label(master=window_machine_turing, text="Комментарии", height=1, justify="left",
                          font=("Gabriola", "20"), background="white")
-    label_com.place(x=960, y=370)
+    label_com.place(x=940, y=370)
 
     frame_infinity_tape = Tk.Frame(master=window_machine_turing, width=1140, height=100)
     frame_infinity_tape.place(x=30, y=275)
@@ -997,8 +1000,8 @@ def simulator_turing_machine(dict_windows):
         list_lbl_comments.append(lbl)
 
     list_lbl_comments[0].place(x=0, y=5)
-    list_lbl_comments[1].place(x=0, y=45)
-    list_lbl_comments[2].place(x=0, y=115)
+    list_lbl_comments[1].place(x=0, y=55)
+    list_lbl_comments[2].place(x=0, y=105)
 
     alphabetical = ["0", "1", " "]
 

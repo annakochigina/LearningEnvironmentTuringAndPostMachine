@@ -1,6 +1,6 @@
 {
   "alphabetical_size": 2,
-  "task_condition": " Уменьшаем на 1 число.",
+  "task_condition": " Уменьшить число на 1",
   "pointer_index": 0,
   "counter_command": 11,
   "table_rules": {

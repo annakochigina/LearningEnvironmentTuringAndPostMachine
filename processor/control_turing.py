@@ -316,7 +316,7 @@ def create_and_fill_infinity_tape(turing_alg_obj, turing_alg_wid, expression_inf
         current_my_opt_menu = MyOptionMenu(current_opt_menu, symbol, turing_alg_obj.alphabetical)
         turing_alg_wid.infinity_tape[ind] = current_my_opt_menu
 
-        lbl = Tk.Label(master=turing_alg_wid.frame_infinity_tape, text=str(ind), justify="left", font=("Verdana", "12"))
+        lbl = Tk.Label(master=turing_alg_wid.frame_infinity_tape, text=str(ind), justify="left", font=("Verdana", "12"), background="white")
 
         if turing_alg_wid.output_elm_ids[0] <= ind < turing_alg_wid.output_elm_ids[1]:
             current_opt_menu.place(x=place_x, y=63, width=60, height=40)
@@ -427,11 +427,19 @@ def first_task_turing(dict_windows, widgets):
     button_next.place(x=960, y=705)
     widgets.append(button_next)
 
-    button_right = Tk.Button(master=window_control_turing, width=1, height=6,
+    img_right = Image.open(Path.cwd() / "Image" / "right.png")
+    photo_right = ImageTk.PhotoImage(img_right, master=window_control_turing)
+    label_right = Tk.Label(window_control_turing, image=photo_right)
+    label_right.image = photo_right
+    button_right = Tk.Button(master=window_control_turing, image=photo_right, width=1, height=6,
                              command=lambda: movement_right(turing_alg_obj, turing_alg_wid))
     button_right.place(x=1170, y=275, height=100, width=30)
 
-    button_left = Tk.Button(master=window_control_turing, width=1, height=6,
+    img_left = Image.open(Path.cwd() / "Image" / "left.png")
+    photo_left = ImageTk.PhotoImage(img_left, master=window_control_turing)
+    label_left = Tk.Label(window_control_turing, image=photo_left)
+    label_left.image = photo_left
+    button_left = Tk.Button(master=window_control_turing, image=photo_left, width=1, height=6,
                             command=lambda: movement_left(turing_alg_obj, turing_alg_wid))
     button_left.place(x=0, y=275, height=100, width=30)
 

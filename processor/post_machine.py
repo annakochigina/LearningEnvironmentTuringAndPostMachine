@@ -640,6 +640,9 @@ def cleaning_widgets(post_alg_obj, post_alg_wid):
         lbl.destroy()
     post_alg_wid.list_label_ind.clear()
 
+    if post_alg_wid.tests:
+        post_alg_wid.tests.destroy()
+
     post_alg_obj.table_rules = [[] for i in range(11)]
 
     post_alg_wid.output_elm_ids = [-9, 9]
@@ -676,7 +679,7 @@ def help_trainer(dict_windows):
     window.title("Как работать с тренажером?")
     window_width_center = (window.winfo_screenwidth()) // 2 - 350
     window_height_center = (window.winfo_screenheight()) // 2 - 300
-    window.geometry("700x600+{}+{}".format(window_width_center, window_height_center))
+    window.geometry("700x650+{}+{}".format(window_width_center, window_height_center))
     window.config(background="white")
     window.resizable(width=False, height=False)
 
@@ -684,7 +687,7 @@ def help_trainer(dict_windows):
                      background="white")
     label.place(x=150, y=5)
 
-    text = Tk.Frame(master=window, width=675, height=540, background="white")
+    text = Tk.Frame(master=window, width=675, height=600, background="white")
     text.place(x=10, y=50)
 
     label_info = Tk.Label(master=text, text=TRAINER, justify="left", font=("Bahnschrift Light", "12"),
@@ -697,11 +700,11 @@ def create_table_tests(post_alg_wid, table_tests):
     test.place(x=15, y=45)
     post_alg_wid.tests = test
 
-    columns = ("input", "output")
+    columns = ("Входной параметр", "Результат")
     tree = ttk.Treeview(master=test, columns=columns, show="headings")
     tree.pack(fill="both", expand=1)
-    tree.heading("input", text="input")
-    tree.heading("output", text="output")
+    tree.heading("Входной параметр", text="Входной параметр")
+    tree.heading("Результат", text="Результат")
 
     for test in table_tests:
         tree.insert("", "end", values=test)
@@ -815,6 +818,13 @@ def fouth_task_laboratory_work(post_alg_wid):
 
     text_task = f'Написать программу, которая складывает два целых числа: {number_one} и {number_two}'
     post_alg_wid.text_task_condition.insert("end", text_task)
+
+    table_tests = []
+    test_one = u'\u2714'*number_one + '  ' + u'\u2714'*number_two
+    test_one_answer = u'\u2714' * (number_one + number_two)
+    table_tests.append(tuple([test_one, test_one_answer]))
+
+    create_table_tests(post_alg_wid, table_tests)
 
 
 def simulator_post_machine(dict_windows):
