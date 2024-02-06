@@ -1,7 +1,7 @@
 import tkinter as Tk
 from PIL import Image, ImageTk
 import const.text as text
-from processor import turing_machine, post_machine, control_turing, control_post, learning_turing
+from processor import turing_machine, post_machine, control_turing, control_post, learning_turing, learning_post
 from pathlib import Path
 import os
 
@@ -384,6 +384,11 @@ def theory_post(objects, dict_windows):
     objects.append(button_exit)
 
 
+def create_window_learning_post(dict_windows):
+    dict_windows["window_for_algorithms"].withdraw()
+    window_learning_post = learning_post.create_learning_post(dict_windows)
+
+
 def create_window_machine_post(dict_windows):
     dict_windows["window_for_algorithms"].withdraw()
     window_machine_postg = post_machine.create_machine_post(dict_windows)
@@ -438,7 +443,7 @@ def menu_post(objects, dict_windows):  # меню для работы с маш�
     label_algorithm = Tk.Label(window_for_algorithms, image=photo_algorithm)
     label_algorithm.image = photo_algorithm
     button_algorithm = Tk.Button(master=window_for_algorithms, relief="flat", image=photo_algorithm, width=200,
-                                 height=200, cursor="hand2")
+                                 height=200, cursor="hand2", command=lambda: create_window_learning_post(dict_windows))
     button_algorithm.place(x=375, y=450)
     objects.append(button_algorithm)
 
@@ -470,3 +475,7 @@ def menu_post(objects, dict_windows):  # меню для работы с маш�
     objects.append(button_exit)
 
     window_for_algorithms.protocol("WM_DELETE_WINDOW", lambda: return_first_form(dict_windows))
+
+
+def create_random_rule_for_task():
+    return random.choice(string.ascii_letters+string.digits)+random.choice(['<', '>', '.'])+str(random.randint(0, 25))

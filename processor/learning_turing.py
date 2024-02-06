@@ -9,13 +9,13 @@ import re, os, random, string
 import const.text as text
 from PIL import Image, ImageTk
 from pathlib import Path
-
 import tkinter.filedialog as fd
 import json
 
-LEARN_TURING = text.CONST_LEARN_TURING
-FIRST_TASK = text.CONST_LEARN_FIRST_TASK_TURING
+LEARN_TURING = text.CONST_LEARN
+FIRST_TASK = text.CONST_LEARN_FIRST_TASK
 SECOND_TASK = text.CONST_LEARN_SECOND_TASK_TURING
+
 
 def rgb_hack(rgb):
     return "#%02x%02x%02x" % rgb
@@ -107,7 +107,7 @@ def first_task_learn(dict_windows, widgets):
     label_exit = Tk.Label(window_learning_turing, image=photo_exit)
     label_exit.image = photo_exit
     button_exit = Tk.Button(master=window_learning_turing, image=photo_exit, width=40, height=40, cursor="hand2",
-                            background="white", justify="center", relief="flat")
+                            background="white", justify="center", relief="flat", command=lambda: return_window_for_algorithms(dict_windows))
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
@@ -133,7 +133,7 @@ def first_task_learn(dict_windows, widgets):
     entry_first_question.place(x=450, y=10)
     widgets.append(entry_first_question)
 
-    label_second_question = Tk.Label(master=frame_questions, width=50, justify="left", text="Куда передвигаем указатель?", font=("Gabriola", "20"), background="white")
+    label_second_question = Tk.Label(master=frame_questions, width=50, justify="left", text="Куда передвигаем каретку?", font=("Gabriola", "20"), background="white")
     label_second_question.place(x=0,y=50)
     widgets.append(label_second_question)
     entry_second_question = Tk.Entry(master=frame_questions, width=10, font=('Arial', 16, 'bold'), relief="raised")
@@ -230,7 +230,7 @@ def second_task_learn(dict_windows, widgets):
     label_exit = Tk.Label(window_learning_turing, image=photo_exit)
     label_exit.image = photo_exit
     button_exit = Tk.Button(master=window_learning_turing, image=photo_exit, width=40, height=40, cursor="hand2",
-                            background="white", justify="center", relief="flat")
+                            background="white", justify="center", relief="flat", command=lambda: return_window_for_algorithms(dict_windows))
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
@@ -279,6 +279,16 @@ def second_task_learn(dict_windows, widgets):
     button_next.place(x=950, y=705)
     widgets.append(button_next)
 
+    img_previos = Image.open(Path.cwd() / "Image" / "Step_previos.png")
+    photo_previos = ImageTk.PhotoImage(img_previos, master=window_learning_turing)
+    label_previos = Tk.Label(window_learning_turing, image=photo_previos)
+    label_previos.image = photo_previos
+    button_previos = Tk.Button(master=window_learning_turing, text="Предыдущее задание  ", image=photo_previos,
+                            compound="left", width=200, height=25, font=("Arial", "12", "italic"), background="white",
+                            cursor="hand2", command=lambda: first_task_learn(dict_windows, widgets))
+    button_previos.place(x=150, y=705)
+    widgets.append(button_previos)
+
 
 def create_text_second_task(dict_rule):
     number = random.randint(0, 3)
@@ -291,16 +301,16 @@ def create_text_second_task(dict_rule):
 
     if number == 0:
         return f"""	  Из текущего состояния переходим в состояние {dict_rule['rule'][2:]}, заменяем текущий элемент 
-        на {dict_rule['rule'][0]}, указатель {transition}"""
+        на {dict_rule['rule'][0]}, каретку {transition}"""
     elif number == 1:
-        return f"""   Элемент заменяем на {dict_rule['rule'][0]}, {transition} указатель, переходим 
+        return f"""   Элемент заменяем на {dict_rule['rule'][0]}, {transition} каретку, переходим 
         в состояние {dict_rule['rule'][2:]}"""
     elif number == 2:
-        return f"""   Заменяем текущий элемент на {dict_rule['rule'][0]}, указатель {transition}, из текущего 
+        return f"""   Заменяем текущий элемент на {dict_rule['rule'][0]}, каретку {transition}, из текущего 
         состояния переходим в состояние {dict_rule['rule'][2:]}"""
     else:
         return f"""   Текущий элемент заменяем на {dict_rule['rule'][0]}, переходим в {dict_rule['rule'][2:]} 
-        состояние, указатель {transition}"""
+        состояние, каретку {transition}"""
 
 
 def check_second_task(dict_rule, entry_answer, label_true_tasks):
@@ -338,7 +348,7 @@ def third_task_learn(dict_windows, widgets):
     label_exit = Tk.Label(window_learning_turing, image=photo_exit)
     label_exit.image = photo_exit
     button_exit = Tk.Button(master=window_learning_turing, image=photo_exit, width=40, height=40, cursor="hand2",
-                            background="white", justify="center", relief="flat")
+                            background="white", justify="center", relief="flat", command=lambda: return_window_for_algorithms(dict_windows))
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
@@ -390,6 +400,17 @@ def third_task_learn(dict_windows, widgets):
                             cursor="hand2", command=lambda: fourth_task_learn(dict_windows, widgets))
     button_next.place(x=950, y=705)
     widgets.append(button_next)
+
+    img_previos = Image.open(Path.cwd() / "Image" / "Step_previos.png")
+    photo_previos = ImageTk.PhotoImage(img_previos, master=window_learning_turing)
+    label_previos = Tk.Label(window_learning_turing, image=photo_previos)
+    label_previos.image = photo_previos
+    button_previos = Tk.Button(master=window_learning_turing, text="Предыдущее задание  ", image=photo_previos,
+                               compound="left", width=200, height=25, font=("Arial", "12", "italic"),
+                               background="white",
+                               cursor="hand2", command=lambda: second_task_learn(dict_windows, widgets))
+    button_previos.place(x=150, y=705)
+    widgets.append(button_previos)
 
     frame_table_rules = Tk.Frame(master=window_learning_turing, width=800, height=250, border=10,
                                  background=rgb_hack((1, 116, 64)))
@@ -462,7 +483,7 @@ def fourth_task_learn(dict_windows, widgets):
     label_exit = Tk.Label(window_learning_turing, image=photo_exit)
     label_exit.image = photo_exit
     button_exit = Tk.Button(master=window_learning_turing, image=photo_exit, width=40, height=40, cursor="hand2",
-                            background="white", justify="center", relief="flat")
+                            background="white", justify="center", relief="flat", command=lambda: return_window_for_algorithms(dict_windows))
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
@@ -514,6 +535,17 @@ def fourth_task_learn(dict_windows, widgets):
                             cursor="hand2", command=lambda: fifth_task_learn(dict_windows, widgets))
     button_next.place(x=950, y=705)
     widgets.append(button_next)
+
+    img_previos = Image.open(Path.cwd() / "Image" / "Step_previos.png")
+    photo_previos = ImageTk.PhotoImage(img_previos, master=window_learning_turing)
+    label_previos = Tk.Label(window_learning_turing, image=photo_previos)
+    label_previos.image = photo_previos
+    button_previos = Tk.Button(master=window_learning_turing, text="Предыдущее задание  ", image=photo_previos,
+                               compound="left", width=200, height=25, font=("Arial", "12", "italic"),
+                               background="white",
+                               cursor="hand2", command=lambda: third_task_learn(dict_windows, widgets))
+    button_previos.place(x=150, y=705)
+    widgets.append(button_previos)
 
     frame_table_rules = Tk.Frame(master=window_learning_turing, width=800, height=250, border=10,
                                  background=rgb_hack((1, 116, 64)))
@@ -586,9 +618,20 @@ def fifth_task_learn(dict_windows, widgets):
     label_exit = Tk.Label(window_learning_turing, image=photo_exit)
     label_exit.image = photo_exit
     button_exit = Tk.Button(master=window_learning_turing, image=photo_exit, width=40, height=40, cursor="hand2",
-                            background="white", justify="center", relief="flat")
+                            background="white", justify="center", relief="flat", command=lambda: return_window_for_algorithms(dict_windows))
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
+
+    img_previos = Image.open(Path.cwd() / "Image" / "Step_previos.png")
+    photo_previos = ImageTk.PhotoImage(img_previos, master=window_learning_turing)
+    label_previos = Tk.Label(window_learning_turing, image=photo_previos)
+    label_previos.image = photo_previos
+    button_previos = Tk.Button(master=window_learning_turing, text="Предыдущее задание  ", image=photo_previos,
+                               compound="left", width=200, height=25, font=("Arial", "12", "italic"),
+                               background="white",
+                               cursor="hand2", command=lambda: fourth_task_learn(dict_windows, widgets))
+    button_previos.place(x=150, y=705)
+    widgets.append(button_previos)
 
     label_description_task = Tk.Label(master=window_learning_turing, width=100,
                                       justify="center", font=("Gabriola", "20"), background="white")
