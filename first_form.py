@@ -43,12 +43,12 @@ canvas.place(x=0, y=0)
 canvas.create_image(0,0, anchor="nw", image=image)
 
 label_title = Tk.Label(master=window, text="Основы теории алгоритмов", justify="center", width="25", height=1, font=("Gabriola", "48", "bold"), bg=rgb_hack((1, 116, 64)))
-label_title.pack(pady=(150,75))
+label_title.pack(pady=(150, 75))
 
 frame_button = Tk.Frame(master=window, width=1200, height=375, background="white")
 frame_button.place(x=0, y=375)
 
-photo_tur = Tk.PhotoImage(file = "./Image/StartTuring.png")
+photo_tur = Tk.PhotoImage(file="./Image/StartTuring.png")
 button_turing_machine = Tk.Button(master=window, image=photo_tur, font=("Gabriola", "40"), background='white', activeforeground=rgb_hack((1, 116, 64)), relief="flat", cursor="hand2", command=create_window_turing)
 button_turing_machine.place(x=325, y=420)
 

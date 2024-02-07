@@ -134,8 +134,11 @@ def first_task_learn(dict_windows, widgets):
 
     variable = Tk.StringVar(frame_questions)
     variable.set('выберете вариант ответа')
+
     answers = ['передвигает каретку влево', 'передвигает каретку вправо', 'стирает пометку', 'ставит пометку', 'останавливает программу', 'проверяет наличие пометки']
-    option_menu_answer = Tk.OptionMenu(frame_questions, variable, *answers)
+    widgets_frame_question = []
+
+    option_menu_answer = Tk.OptionMenu(frame_questions, variable, *answers, command=lambda x: create_second_path_first_task(x, frame_questions, widgets_frame_question))
     option_menu_answer.config(width=25, font=("Gabriola", "14"))
     option_menu_answer.place(x=425, y=0)
     widgets.append(option_menu_answer)
@@ -172,3 +175,19 @@ def create_random_rule_for_double_digit():
             m = random.randint(1, 25)
         return f'{command} {n}, {m}'
     return command
+
+
+def create_second_path_first_task(variable, frame, widgets_frame_question):
+
+    for elem in widgets_frame_question:
+        elem.destroy()
+    if variable != 'останавливает программу' and variable != 'проверяет наличие пометки':
+        label_question = Tk.Label(master=frame, width=50, justify="left",
+                                        text="На какую строку осуществляется переход?",
+                                        font=("Gabriola", "20"), background="white")
+        label_question.place(x=0, y=50)
+        widgets_frame_question.append(label_question)
+
+        entry_answer = Tk.Entry(master=frame, width=10, font=('Arial', 16, 'bold'), relief="raised")
+        entry_answer.place(x=500, y=60)
+        widgets_frame_question.append(entry_answer)
