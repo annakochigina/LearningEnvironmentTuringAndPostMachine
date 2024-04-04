@@ -202,6 +202,7 @@ def create_second_path_first_task(variable, frame, widgets_frame_question, answe
 
         entry_answer_one = Tk.Entry(master=frame, width=10, font=('Arial', 16, 'bold'), relief="raised")
         entry_answer_one.place(x=500, y=100)
+        entry_answer_one.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
         widgets_frame_question.append(entry_answer_one)
         answers_stud_entry.append(entry_answer_one)
 
@@ -213,6 +214,7 @@ def create_second_path_first_task(variable, frame, widgets_frame_question, answe
 
         entry_answer_two = Tk.Entry(master=frame, width=10, font=('Arial', 16, 'bold'), relief="raised")
         entry_answer_two.place(x=500, y=170)
+        entry_answer_two.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
         widgets_frame_question.append(entry_answer_two)
         answers_stud_entry.append(entry_answer_two)
 
@@ -225,6 +227,7 @@ def create_second_path_first_task(variable, frame, widgets_frame_question, answe
 
         entry_answer = Tk.Entry(master=frame, width=10, font=('Arial', 16, 'bold'), relief="raised")
         entry_answer.place(x=500, y=70)
+        entry_answer.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
         widgets_frame_question.append(entry_answer)
         answers_stud_entry.append(entry_answer)
 
@@ -317,8 +320,14 @@ def second_task_learn(dict_windows, widgets):
                                 background="white")
     label_task.place(x=50, y=200)
     widgets.append(label_task)
+
+    label_answer = Tk.Label(master=window_learning_post, text="Ваш ответ:", justify="center", font=("Gabriola", "24"),
+                            background="white")
+    label_answer.place(x=350, y=330)
+    widgets.append(label_answer)
     entry_answer = Tk.Entry(master=window_learning_post, width=20, font=('Arial', 16, 'bold'), relief="raised")
-    entry_answer.place(x=350, y=350)
+    entry_answer.place(x=500, y=350)
+    entry_answer.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     widgets.append(entry_answer)
 
     label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "20"),
@@ -393,7 +402,7 @@ def check_second_task(dict_rule, entry_answer, label_true_tasks):
 
 def restart_second_task(dict_rule, entry_answer, label_task, label_true_tasks):
     entry_answer.delete("0", "end")
-    entry_answer.config(highlightbackground="white", highlightcolor="white")
+    entry_answer.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     label_true_tasks.config(text="")
 
     dict_rule['rule'] = create_random_rule_for_double_digit()
@@ -533,7 +542,7 @@ def fourth_task_learn(dict_windows, widgets):
     frame_table_rules.place(x=70, y=400)
     widgets.append(frame_table_rules)
 
-    frame_infinity_tape = Tk.Frame(master=window_learning_post, width=1140, height=100, padx=0, pady=0)
+    frame_infinity_tape = Tk.Frame(master=window_learning_post, width=1140, height=100, padx=0, pady=0, background="white")
     frame_infinity_tape.place(x=30, y=275)
     widgets.append(frame_infinity_tape)
 
@@ -681,7 +690,7 @@ def fifth_task_learn(dict_windows, widgets):
     frame_table_rules.place(x=70, y=400)
     widgets.append(frame_table_rules)
 
-    frame_infinity_tape = Tk.Frame(master=window_learning_post, width=1140, height=100, padx=0, pady=0)
+    frame_infinity_tape = Tk.Frame(master=window_learning_post, width=1140, height=100, padx=0, pady=0, background="white")
     frame_infinity_tape.place(x=30, y=275)
     widgets.append(frame_infinity_tape)
 

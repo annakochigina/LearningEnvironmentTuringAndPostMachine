@@ -117,8 +117,8 @@ def first_task_learn(dict_windows, widgets):
     widgets.append(label_description_task)
 
     dict_rule = {'rule': create_random_rule_for_task()}
-    label_rule = Tk.Label(master=window_learning_turing, width=70, justify="center", text=dict_rule['rule'], font=("Times New Roman", "24"), background="white")
-    label_rule.place(x=20, y=150)
+    label_rule = Tk.Label(master=window_learning_turing, width=55, text=dict_rule['rule'], font=("Times New Roman", "30"), background="white")
+    label_rule.place(x=0, y=150)
     widgets.append(label_rule)
 
     frame_questions = Tk.Frame(master=window_learning_turing, width=1000, height=400,
@@ -131,6 +131,7 @@ def first_task_learn(dict_windows, widgets):
     widgets.append(label_first_question)
     entry_first_question = Tk.Entry(master=frame_questions, width=10, font=('Arial', 16, 'bold'), relief="raised")
     entry_first_question.place(x=450, y=10)
+    entry_first_question.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     widgets.append(entry_first_question)
 
     label_second_question = Tk.Label(master=frame_questions, width=50, justify="left", text="Куда передвигаем каретку?", font=("Gabriola", "20"), background="white")
@@ -138,6 +139,7 @@ def first_task_learn(dict_windows, widgets):
     widgets.append(label_second_question)
     entry_second_question = Tk.Entry(master=frame_questions, width=10, font=('Arial', 16, 'bold'), relief="raised")
     entry_second_question.place(x=450, y=60)
+    entry_second_question.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     widgets.append(entry_second_question)
 
     label_third_question = Tk.Label(master=frame_questions, width=50, justify="left", text="В какое состояние переходим?", font=("Gabriola", "20"), background="white")
@@ -145,6 +147,7 @@ def first_task_learn(dict_windows, widgets):
     widgets.append(label_third_question)
     entry_third_question = Tk.Entry(master=frame_questions, width=10, font=('Arial', 16, 'bold'), relief="raised")
     entry_third_question.place(x=450, y=110)
+    entry_third_question.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     widgets.append(entry_third_question)
 
     label_true_tasks = Tk.Label(master=window_learning_turing, width=50, justify="left", font=("Gabriola", "20"), background="white")
@@ -205,11 +208,11 @@ def check_first_task(dict_rule, label_true_tasks, entry_first_question, entry_se
 
 def restart_first_task(dict_rule, label_rule, label_true_tasks, entry_first_question, entry_second_question, entry_third_question):
     entry_first_question.delete("0", "end")
-    entry_first_question.config(highlightbackground="white", highlightcolor="white")
+    entry_first_question.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     entry_second_question.delete("0", "end")
-    entry_second_question.config(highlightbackground="white", highlightcolor="white")
+    entry_second_question.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     entry_third_question.delete("0", "end")
-    entry_third_question.config(highlightbackground="white", highlightcolor="white")
+    entry_third_question.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     label_true_tasks.config(text="")
 
     dict_rule['rule'] = create_random_rule_for_task()
@@ -242,12 +245,18 @@ def second_task_learn(dict_windows, widgets):
     dict_rule = {'rule': create_random_rule_for_task()}
     print(dict_rule['rule'])
 
-    label_task = Tk.Label(master=window_learning_turing, width=100, text=create_text_second_task(dict_rule), justify="left", font=("Gabriola", "18"),
+    label_task = Tk.Label(master=window_learning_turing, width=100, text=create_text_second_task(dict_rule), justify="left", font=("Gabriola", "20"),
                                 background="white")
     label_task.place(x=50, y=200)
     widgets.append(label_task)
+
+    label_answer = Tk.Label(master=window_learning_turing, text="Ваш ответ:", justify="center", font=("Gabriola", "24"),
+                            background="white")
+    label_answer.place(x=350, y=330)
+    widgets.append(label_answer)
     entry_answer = Tk.Entry(master=window_learning_turing, width=20, font=('Arial', 16, 'bold'), relief="raised")
-    entry_answer.place(x=350, y=350)
+    entry_answer.place(x=500, y=350)
+    entry_answer.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     widgets.append(entry_answer)
 
     label_true_tasks = Tk.Label(master=window_learning_turing, width=50, justify="left", font=("Gabriola", "20"),
@@ -327,7 +336,7 @@ def check_second_task(dict_rule, entry_answer, label_true_tasks):
 
 def restart_second_task(dict_rule, entry_answer, label_task, label_true_tasks):
     entry_answer.delete("0", "end")
-    entry_answer.config(highlightbackground="white", highlightcolor="white")
+    entry_answer.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     label_true_tasks.config(text="")
 
     dict_rule['rule'] = create_random_rule_for_task()
@@ -416,7 +425,6 @@ def third_task_learn(dict_windows, widgets):
                                  background=rgb_hack((1, 116, 64)))
     frame_table_rules.place(x=50, y=430)
     widgets.append(frame_table_rules)
-    # width = 850, height = 250
 
     frame_infinity_tape = Tk.Frame(master=window_learning_turing, width=1140, height=100, background="white")
     frame_infinity_tape.place(x=30, y=275)
@@ -914,7 +922,7 @@ def create_and_fill_infinity_tape(turing_alg_obj, turing_alg_wid, expression_inf
         current_my_opt_menu = MyOptionMenu(current_opt_menu, symbol, turing_alg_obj.alphabetical)
         turing_alg_wid.infinity_tape[ind] = current_my_opt_menu
 
-        lbl = Tk.Label(master=turing_alg_wid.frame_infinity_tape, text=str(ind), justify="left", font=("Verdana", "12"))
+        lbl = Tk.Label(master=turing_alg_wid.frame_infinity_tape, text=str(ind), justify="left", font=("Verdana", "12"), background="white")
 
         if turing_alg_wid.output_elm_ids[0] <= ind < turing_alg_wid.output_elm_ids[1]:
             current_opt_menu.place(x=place_x, y=63, width=60, height=40)
