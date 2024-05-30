@@ -98,10 +98,20 @@ def first_task_learn(dict_windows, widgets):
     widgets = destroy_widgets(widgets)
     window_learning_post = dict_windows["window_learning_post"]
 
-    label_number_task = Tk.Label(master=window_learning_post, width=80, text="Задание 1", justify="center",
-                                 font=("Gabriola", "28"), background="white")
-    label_number_task.place(x=0, y=10)
+    label_number_task = Tk.Label(master=window_learning_post, text="Задание 1", width=25, justify="center",
+                                 font=("Gabriola", "44"), background=rgb_hack((1, 116, 64)))
+    label_number_task.place(x=375, y=50)
     widgets.append(label_number_task)
+
+    img_fon = Image.open(Path.cwd() / "Image" / "fon_control.png")
+    photo_fon = ImageTk.PhotoImage(img_fon, master=window_learning_post)
+    label_fon = Tk.Label(window_learning_post, image=photo_fon)
+    label_fon.image = photo_fon
+    canvas = Tk.Canvas(master=window_learning_post, highlightthickness=0, width=240, height=450, background="white",
+                       border=0)
+    canvas.place(x=0, y=0)
+    canvas.create_image(0, 0, anchor="nw", image=photo_fon)
+    widgets.append(canvas)
 
     img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
     photo_exit = ImageTk.PhotoImage(img_exit, master=window_learning_post)
@@ -113,31 +123,26 @@ def first_task_learn(dict_windows, widgets):
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
-    label_description_task = Tk.Label(master=window_learning_post, width=100, text=FIRST_TASK,
-                                       justify="center", font=("Gabriola", "20"), background="white")
-    label_description_task.place(x=20, y=100)
+    label_description_task = Tk.Label(master=window_learning_post, width=50, text=FIRST_TASK,
+                                      justify="center", font=("Gabriola", "28"), background="white")
+    label_description_task.place(x=300, y=200)
     widgets.append(label_description_task)
 
     dict_rule = {'rule': create_random_rule_for_double_digit()}
-    label_rule = Tk.Label(master=window_learning_post, width=70, justify="center", text=dict_rule['rule'],
-                          font=("Times New Roman", "24"), background="white")
-    label_rule.place(x=20, y=150)
+    label_rule = Tk.Label(master=window_learning_post, width=15, text=dict_rule['rule'],
+                          font=("Cambria", "30"), justify="center", background="white")
+    label_rule.place(x=500, y=275)
     widgets.append(label_rule)
 
-    frame_questions = Tk.Frame(master=window_learning_post, width=1000, height=400,
-                                         background="white", border=15)
-    frame_questions.place(x=100, y=200)
+    frame_questions = Tk.Frame(master=window_learning_post, width=860, height=500,
+                               background="white", border=0)
+    frame_questions.place(x=150, y=335)
     widgets.append(frame_questions)
 
-    label_first_question = Tk.Label(master=frame_questions, width=50, justify="left", text="Какая команда выполняется?",
-                                    font=("Gabriola", "20"), background="white")
-    label_first_question.place(x=0, y=0)
+    label_first_question = Tk.Label(master=frame_questions, width=70, text="Какая команда выполняется?",
+                                    font=("Gabriola", "24"), background="white", justify="left")
+    label_first_question.place(x=-105, y=0)
     widgets.append(label_first_question)
-
-    label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "20"),
-                                background="white")
-    label_true_tasks.place(x=100, y=600)
-    widgets.append(label_true_tasks)
 
     variable = Tk.StringVar(frame_questions)
     variable.set('выберите вариант ответа')
@@ -147,18 +152,27 @@ def first_task_learn(dict_windows, widgets):
     answers_stud_entry = []
 
     option_menu_answer = Tk.OptionMenu(frame_questions, variable, *answers, command=lambda x: create_second_path_first_task(x, frame_questions, widgets_frame_question, answers_stud_entry))
-    option_menu_answer.config(width=25, font=("Gabriola", "14"))
-    option_menu_answer.place(x=425, y=0)
+    option_menu_answer.config(width=25, font=("Cambria", "16"))
+    option_menu_answer.place(x=515, y=5)
     widgets.append(option_menu_answer)
 
-    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=15, height=1, font=("Arial", "12", "italic"), background="white",
-                             cursor="hand2", command=lambda : check_first_task(dict_rule, answers_stud_entry, variable, option_menu_answer, label_true_tasks))
-    button_verification.place(x=650, y=705)
+    label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "24"),
+                                background="white")
+    label_true_tasks.place(x=250, y=600)
+    widgets.append(label_true_tasks)
+
+    button_verification = Tk.Button(master=window_learning_post, text="Проверить",  width=20, height=1, font=("Arial", "16", "italic"), background=rgb_hack((1, 116, 64)),
+                             cursor="hand2", relief="flat",  command=lambda : check_first_task(dict_rule, answers_stud_entry, variable, option_menu_answer, label_true_tasks))
+    button_verification.place(x=650, y=700)
     widgets.append(button_verification)
 
-    button_restart = Tk.Button(master=window_learning_post, text="Повторить", width=15, height=1, font=("Arial", "12", "italic"), background="white",
-                                    cursor="hand2", command=lambda: restart_first_task(variable, option_menu_answer, dict_rule, label_rule, widgets_frame_question, answers_stud_entry, label_true_tasks))
-    button_restart.place(x=450, y=705)
+    img_next = Image.open(Path.cwd() / "Image" / "repeat.png")
+    photo_next = ImageTk.PhotoImage(img_next, master=window_learning_post)
+    label_next = Tk.Label(window_learning_post, image=photo_next)
+    label_next.image = photo_next
+    button_restart = Tk.Button(master=window_learning_post, text="Повторить", image=photo_next, compound="left", width=225, height=35, font=("Arial", "16", "italic"), background=rgb_hack((1, 116, 64)),
+                                    cursor="hand2", relief="flat", command=lambda: restart_first_task(variable, option_menu_answer, dict_rule, label_rule, widgets_frame_question, answers_stud_entry, label_true_tasks))
+    button_restart.place(x=375, y=700)
     widgets.append(button_restart)
 
     img_next = Image.open(Path.cwd() / "Image" / "Step.png")
@@ -166,9 +180,9 @@ def first_task_learn(dict_windows, widgets):
     label_next = Tk.Label(window_learning_post, image=photo_next)
     label_next.image = photo_next
     button_next = Tk.Button(master=window_learning_post, text="Следующее задание  ", image=photo_next,
-                            compound="right", width=200, height=25, font=("Arial", "12", "italic"), background="white",
-                            cursor="hand2", command=lambda: second_task_learn(dict_windows, widgets))
-    button_next.place(x=950, y=705)
+                            compound="right", width=300, height=35, font=("Arial", "16", "italic"), background="white",
+                            cursor="hand2", relief="flat", command=lambda: second_task_learn(dict_windows, widgets))
+    button_next.place(x=900, y=700)
     widgets.append(button_next)
 
 
@@ -194,26 +208,26 @@ def create_second_path_first_task(variable, frame, widgets_frame_question, answe
         answers_stud_entry.pop()
 
     if variable == 'проверяет наличие пометки':
-        label_question_one = Tk.Label(master=frame, width=100,
+        label_question_one = Tk.Label(master=frame, width=100, justify="left",
                                   text="Если текущая ячейка пустая, то необходимо осуществить переход на ",
-                                  font=("Gabriola", "20"), background="white")
-        label_question_one.place(x=0, y=60)
+                                  font=("Gabriola", "24"), background="white")
+        label_question_one.place(x=-160, y=60)
         widgets_frame_question.append(label_question_one)
 
-        entry_answer_one = Tk.Entry(master=frame, width=10, font=('Arial', 16, 'bold'), relief="raised")
-        entry_answer_one.place(x=500, y=100)
+        entry_answer_one = Tk.Entry(master=frame, width=10, font=('Cambria', 16, 'bold'), relief="raised")
+        entry_answer_one.place(x=500, y=115)
         entry_answer_one.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
         widgets_frame_question.append(entry_answer_one)
         answers_stud_entry.append(entry_answer_one)
 
-        label_question_two = Tk.Label(master=frame, width=100,
+        label_question_two = Tk.Label(master=frame, width=100, justify="left",
                                       text="Иначе если текущая ячейка непустая, то необходимо осуществить переход на ",
-                                      font=("Gabriola", "20"), background="white")
-        label_question_two.place(x=0, y=130)
+                                      font=("Gabriola", "24"), background="white")
+        label_question_two.place(x=-205, y=150)
         widgets_frame_question.append(label_question_two)
 
-        entry_answer_two = Tk.Entry(master=frame, width=10, font=('Arial', 16, 'bold'), relief="raised")
-        entry_answer_two.place(x=500, y=170)
+        entry_answer_two = Tk.Entry(master=frame, width=10, font=('Cambria', 16, 'bold'), relief="raised")
+        entry_answer_two.place(x=500, y=200)
         entry_answer_two.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
         widgets_frame_question.append(entry_answer_two)
         answers_stud_entry.append(entry_answer_two)
@@ -221,12 +235,12 @@ def create_second_path_first_task(variable, frame, widgets_frame_question, answe
     elif variable != 'останавливает программу':
         label_question = Tk.Label(master=frame, width=50, justify="left",
                                         text="На какую строку осуществляется переход?",
-                                        font=("Gabriola", "20"), background="white")
+                                        font=("Gabriola", "24"), background="white")
         label_question.place(x=0, y=60)
         widgets_frame_question.append(label_question)
 
-        entry_answer = Tk.Entry(master=frame, width=10, font=('Arial', 16, 'bold'), relief="raised")
-        entry_answer.place(x=500, y=70)
+        entry_answer = Tk.Entry(master=frame, width=10, font=('Cambria', 16, 'bold'), relief="raised")
+        entry_answer.place(x=575, y=70)
         entry_answer.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
         widgets_frame_question.append(entry_answer)
         answers_stud_entry.append(entry_answer)
@@ -235,11 +249,11 @@ def create_second_path_first_task(variable, frame, widgets_frame_question, answe
 def check_first_task(dict_rule, answers_stud_entry, variable, option_menu_answer, label_true_tasks):
 
     if variable.get() == "выберите вариант ответа":
-        return messagebox.showerror(title="Ошибка", message="Похоже ты забыл выбрать вариант ответа..", parent=option_menu_answer)
+        return messagebox.showerror(title="Ошибка", message="Похоже вы забыли дать ответ..", parent=option_menu_answer)
 
     for entry in answers_stud_entry:
         if entry.get() == '':
-            return messagebox.showerror(title="Ошибка", message="Похоже ты забыл написать ответ..", parent=option_menu_answer)
+            return messagebox.showerror(title="Ошибка", message="Похоже вы забыли дать ответ..", parent=option_menu_answer)
 
     dict_commands = {'<': 'передвигает каретку влево', '>': 'передвигает каретку вправо', '1': 'ставит пометку', '0': 'стирает пометку',
                     '?': 'проверяет наличие пометки', '.': 'останавливает программу'}
@@ -271,9 +285,9 @@ def check_first_task(dict_rule, answers_stud_entry, variable, option_menu_answer
                 entry.config(highlightthickness=2, highlightbackground="red", highlightcolor="red")
 
     if count_true == len(list_rule):
-        label_true_tasks.config(text="Молодец! Ты верно выполнил задание!")
+        label_true_tasks.config(text="Отлично! Задание выполнено верно!")
     else:
-        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуй ещё раз!")
+        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуйте ещё раз!")
 
 
 def restart_first_task(variable,option_menu_answer, dict_rule, label_rule, widgets_frame_question, answers_stud_entry, label_true_tasks):
@@ -295,10 +309,25 @@ def second_task_learn(dict_windows, widgets):
     widgets = destroy_widgets(widgets)
     window_learning_post = dict_windows["window_learning_post"]
 
-    label_number_task = Tk.Label(master=window_learning_post, width=80, text="Задание 2", justify="center",
-                                 font=("Gabriola", "28"), background="white")
-    label_number_task.place(x=0, y=10)
+    label_number_task = Tk.Label(master=window_learning_post, text="Задание 2", width=25, justify="center",
+                                 font=("Gabriola", "44"), background=rgb_hack((1, 116, 64)))
+    label_number_task.place(x=375, y=50)
     widgets.append(label_number_task)
+
+    img_fon = Image.open(Path.cwd() / "Image" / "fon_control.png")
+    photo_fon = ImageTk.PhotoImage(img_fon, master=window_learning_post)
+    label_fon = Tk.Label(window_learning_post, image=photo_fon)
+    label_fon.image = photo_fon
+    canvas = Tk.Canvas(master=window_learning_post, highlightthickness=0, width=240, height=450, background="white",
+                       border=0)
+    canvas.place(x=0, y=0)
+    canvas.create_image(0, 0, anchor="nw", image=photo_fon)
+    widgets.append(canvas)
+
+    label_description_task = Tk.Label(master=window_learning_post, width=50, text=SECOND_TASK,
+                                      justify="center", font=("Gabriola", "28"), background="white")
+    label_description_task.place(x=300, y=200)
+    widgets.append(label_description_task)
 
     img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
     photo_exit = ImageTk.PhotoImage(img_exit, master=window_learning_post)
@@ -309,44 +338,44 @@ def second_task_learn(dict_windows, widgets):
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
-    label_description_task = Tk.Label(master=window_learning_post, width=100, text=SECOND_TASK,
-                                      justify="center", font=("Gabriola", "20"), background="white")
-    label_description_task.place(x=20, y=100)
-    widgets.append(label_description_task)
-
     dict_rule = {'rule': create_random_rule_for_double_digit()}
 
-    label_task = Tk.Label(master=window_learning_post, width=100, text=create_text_second_task(dict_rule), justify="left", font=("Gabriola", "18"),
-                                background="white")
-    label_task.place(x=50, y=200)
+    label_task = Tk.Label(master=window_learning_post, width=75, text=create_text_second_task(dict_rule),
+                          justify="center", font=("Gabriola", "24"),
+                          background="white")
+    label_task.place(x=150, y=300)
     widgets.append(label_task)
 
-    label_answer = Tk.Label(master=window_learning_post, text="Ваш ответ:", justify="center", font=("Gabriola", "24"),
+    label_answer = Tk.Label(master=window_learning_post, text="Ваш ответ:", justify="center", font=("Gabriola", "28"),
                             background="white")
-    label_answer.place(x=350, y=330)
+    label_answer.place(x=450, y=400)
     widgets.append(label_answer)
-    entry_answer = Tk.Entry(master=window_learning_post, width=20, font=('Arial', 16, 'bold'), relief="raised")
-    entry_answer.place(x=500, y=350)
+    entry_answer = Tk.Entry(master=window_learning_post, width=15, font=('Cambria', 20, 'bold'), relief="raised")
+    entry_answer.place(x=600, y=420)
     entry_answer.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
     widgets.append(entry_answer)
 
-    label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "20"),
+    label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "24"),
                                 background="white")
-    label_true_tasks.place(x=100, y=600)
+    label_true_tasks.place(x=250, y=600)
     widgets.append(label_true_tasks)
 
-    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=15, height=1,
-                                    font=("Arial", "12", "italic"), background="white",
-                                    cursor="hand2",
+    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=20, height=1,
+                                    font=("Arial", "16", "italic"), background=rgb_hack((1, 116, 64)),
+                                    cursor="hand2", relief="flat",
                                     command=lambda: check_second_task(dict_rule, entry_answer, label_true_tasks))
-    button_verification.place(x=650, y=705)
+    button_verification.place(x=650, y=700)
     widgets.append(button_verification)
 
-    button_restart = Tk.Button(master=window_learning_post, text="Повторить", width=15, height=1,
-                               font=("Arial", "12", "italic"), background="white",
-                               cursor="hand2",
+    img_next = Image.open(Path.cwd() / "Image" / "repeat.png")
+    photo_next = ImageTk.PhotoImage(img_next, master=window_learning_post)
+    label_next = Tk.Label(window_learning_post, image=photo_next)
+    label_next.image = photo_next
+    button_restart = Tk.Button(master=window_learning_post, text="Повторить", width=225, height=35,
+                               image=photo_next, compound="left", font=("Arial", "16", "italic"), background=rgb_hack((1, 116, 64)),
+                               cursor="hand2", relief="flat",
                                command=lambda: restart_second_task(dict_rule, entry_answer, label_task, label_true_tasks))
-    button_restart.place(x=450, y=705)
+    button_restart.place(x=375, y=700)
     widgets.append(button_restart)
 
     img_next = Image.open(Path.cwd() / "Image" / "Step.png")
@@ -354,9 +383,9 @@ def second_task_learn(dict_windows, widgets):
     label_next = Tk.Label(window_learning_post, image=photo_next)
     label_next.image = photo_next
     button_next = Tk.Button(master=window_learning_post, text="Следующее задание  ", image=photo_next,
-                            compound="right", width=200, height=25, font=("Arial", "12", "italic"), background="white",
-                            cursor="hand2", command=lambda: fourth_task_learn(dict_windows, widgets))
-    button_next.place(x=950, y=705)
+                            compound="right", width=300, height=35, font=("Arial", "16", "italic"), background="white",
+                            cursor="hand2", relief="flat", command=lambda: third_task_learn(dict_windows, widgets))
+    button_next.place(x=900, y=700)
     widgets.append(button_next)
 
     img_previos = Image.open(Path.cwd() / "Image" / "Step_previos.png")
@@ -364,9 +393,9 @@ def second_task_learn(dict_windows, widgets):
     label_previos = Tk.Label(window_learning_post, image=photo_previos)
     label_previos.image = photo_previos
     button_previos = Tk.Button(master=window_learning_post, text="Предыдущее задание  ", image=photo_previos,
-                            compound="left", width=200, height=25, font=("Arial", "12", "italic"), background="white",
-                            cursor="hand2", command=lambda: first_task_learn(dict_windows, widgets))
-    button_previos.place(x=150, y=705)
+                            compound="left", width=300, height=35, font=("Arial", "16", "italic"), background="white",
+                            cursor="hand2", relief="flat", command=lambda: first_task_learn(dict_windows, widgets))
+    button_previos.place(x=60, y=700)
     widgets.append(button_previos)
 
 
@@ -380,9 +409,9 @@ def create_text_second_task(dict_rule):
     elif list_rule[0] == '1':
         transition = f'Ставим метку, '
     elif list_rule[0] == '<':
-        transition = f'Сдвигаем карутку влево, '
+        transition = f'Сдвигаем каретку влево, '
     elif list_rule[0] == '>':
-        transition = f'Сдвигаем карутку вправо, '
+        transition = f'Сдвигаем каретку вправо, '
     else:
         return f'Останавливаем программу'
     return transition + f'переходим на строку {list_rule[1]}'
@@ -390,14 +419,14 @@ def create_text_second_task(dict_rule):
 
 def check_second_task(dict_rule, entry_answer, label_true_tasks):
     if entry_answer.get() == "":
-        return messagebox.showerror(title="Ошибка", message="Похоже ты забыл написать ответ..", parent=entry_answer)
+        return messagebox.showerror(title="Ошибка", message="Похоже вы забыли дать ответ..", parent=entry_answer)
 
     if entry_answer.get() == dict_rule['rule']:
         entry_answer.config(highlightthickness=2, highlightbackground="green", highlightcolor="green")
-        label_true_tasks.config(text="Молодец! Ты верно выполнил задание!")
+        label_true_tasks.config(text="Отлично! Задание выполнено верно!")
     else:
         entry_answer.config(highlightthickness=2, highlightbackground="red", highlightcolor="red")
-        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуй ещё раз!")
+        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуйте ещё раз!")
 
 
 def restart_second_task(dict_rule, entry_answer, label_task, label_true_tasks):
@@ -413,57 +442,117 @@ def third_task_learn(dict_windows, widgets):
     widgets = destroy_widgets(widgets)
     window_learning_post = dict_windows["window_learning_post"]
 
-    label_number_task = Tk.Label(master=window_learning_post, width=80, text="Задание 3", justify="center",
-                                 font=("Gabriola", "28"), background="white")
-    label_number_task.place(x=0, y=10)
+    label_number_task = Tk.Label(master=window_learning_post, text="Задание 3", width=25, justify="center",
+                                 font=("Gabriola", "44"), background=rgb_hack((1, 116, 64)))
+    label_number_task.place(x=375, y=30)
     widgets.append(label_number_task)
+
+    img_fon = Image.open(Path.cwd() / "Image" / "fon_control.png")
+    photo_fon = ImageTk.PhotoImage(img_fon, master=window_learning_post)
+    label_fon = Tk.Label(window_learning_post, image=photo_fon)
+    label_fon.image = photo_fon
+    canvas = Tk.Canvas(master=window_learning_post, highlightthickness=0, width=240, height=450, background="white",
+                       border=0)
+    canvas.place(x=0, y=0)
+    canvas.create_image(0, 0, anchor="nw", image=photo_fon)
+
+    text_task_condition = Tk.Text(master=window_learning_post, width=75, height=6,
+                                  font=("Cambria", "16"))
+    text_task_condition.place(x=250, y=150)
+    widgets.append(text_task_condition)
 
     img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
     photo_exit = ImageTk.PhotoImage(img_exit, master=window_learning_post)
     label_exit = Tk.Label(window_learning_post, image=photo_exit)
     label_exit.image = photo_exit
     button_exit = Tk.Button(master=window_learning_post, image=photo_exit, width=40, height=40, cursor="hand2",
-                            background="white", justify="center", relief="flat", command=lambda: return_window_for_algorithms(dict_windows))
+                            background="white", justify="center", relief="flat",
+                            command=lambda: return_window_for_algorithms(dict_windows))
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
-    label_description_task = Tk.Label(master=window_learning_post, width=100,
-                                      justify="center", font=("Gabriola", "20"), background="white")
-    label_description_task.place(x=20, y=100)
-    widgets.append(label_description_task)
-
-    label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "20"),
+    label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "24"),
                                 background="white")
-    label_true_tasks.place(x=100, y=600)
+    label_true_tasks.place(x=550, y=600)
     widgets.append(label_true_tasks)
-
-    label_answer = Tk.Label(master=window_learning_post, text="Ваш ответ:", justify="center", font=("Gabriola", "24"),
-                            background="white")
-    label_answer.place(x=900, y=425)
-    widgets.append(label_answer)
-
-    frame_answer = Tk.Frame(master=window_learning_post, width=265, height=50, background=rgb_hack((1, 116, 64)),
-                            border=10)
-    frame_answer.place(x=900, y=500)
-    widgets.append(frame_answer)
-    entry_answer = Tk.Entry(master=frame_answer, width=20, font=('Arial', 16, 'bold'), relief="raised")
-    entry_answer.place(x=1, y=1)
-    widgets.append(entry_answer)
 
     list_true_answer = []
 
-    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=15, height=1,
-                                    font=("Arial", "12", "italic"), background="white",
-                                    cursor="hand2",
-                                    command=lambda: check_third_task(list_true_answer, entry_answer, label_true_tasks))
-    button_verification.place(x=650, y=705)
+    frame_table_rules = Tk.Frame(master=window_learning_post, width=800, height=250, border=10,
+                                 background=rgb_hack((1, 116, 64)))
+    frame_table_rules.place(x=70, y=390)
+    widgets.append(frame_table_rules)
+
+    frame_infinity_tape = Tk.Frame(master=window_learning_post, width=1140, height=100, padx=0, pady=0, background="white")
+    frame_infinity_tape.place(x=30, y=275)
+    widgets.append(frame_infinity_tape)
+
+    img_point = Image.open(Path.cwd() / "Image" / "pointer.png")
+    photo_point = ImageTk.PhotoImage(img_point, master=window_learning_post)
+    label_point = Tk.Label(window_learning_post, image=photo_point)
+    label_point.image = photo_point
+    label_point = Tk.Label(master=frame_infinity_tape, image=photo_point, width=40, height=40, background="white")
+    label_point.place(x=547, y=0)
+
+    label_answer = Tk.Label(master=window_learning_post, text="Ваш ответ:", justify="center", font=("Gabriola", "28"),
+                            background="white")
+    label_answer.place(x=750, y=475)
+    widgets.append(label_answer)
+
+    entry_answer_stud = Tk.Entry(master=window_learning_post, width=15, font=('Cambria', 20, 'bold'), relief="raised")
+    entry_answer_stud.place(x=900, y=490)
+    entry_answer_stud.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
+    widgets.append(entry_answer_stud)
+
+    list_true_answer = []
+
+    img_right = Image.open(Path.cwd() / "Image" / "right.png")
+    photo_right = ImageTk.PhotoImage(img_right, master=window_learning_post)
+    label_right = Tk.Label(window_learning_post, image=photo_right)
+    label_right.image = photo_right
+    button_right = Tk.Button(master=window_learning_post, width=1, height=6, image=photo_right,
+                             command=lambda: movement_right(post_alg_obj, post_alg_wid))
+    button_right.place(x=1170, y=275, height=100, width=30)
+    widgets.append(button_right)
+
+    img_left = Image.open(Path.cwd() / "Image" / "left.png")
+    photo_left = ImageTk.PhotoImage(img_left, master=window_learning_post)
+    label_left = Tk.Label(window_learning_post, image=photo_left)
+    label_left.image = photo_left
+    button_left = Tk.Button(master=window_learning_post, width=1, height=6, image=photo_left,
+                            command=lambda: movement_left(post_alg_obj, post_alg_wid))
+    button_left.place(x=0, y=275, height=100, width=30)
+    widgets.append(button_left)
+
+    table_rules = [[] for i in range(9)]
+    alphabetical = []
+    alphabet_size = 2
+    infinity_tape = {}
+    output_elm_ids = [-9, 9]
+    post_alg_obj = PostAlg(table_rules, alphabetical, 0, alphabet_size)
+    post_alg_wid = ObjPostAlg(infinity_tape, frame_infinity_tape, output_elm_ids, text_task_condition,
+                              frame_table_rules, button_right, button_left)
+
+    read_and_create_task(post_alg_obj, post_alg_wid, 3, list_true_answer)
+
+    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=20, height=1,
+                                    font=("Arial", "16", "italic"), background=rgb_hack((1, 116, 64)),
+                                    cursor="hand2", relief="flat",
+                                    command=lambda: check_third_task(list_true_answer, entry_answer_stud, label_true_tasks))
+    button_verification.place(x=650, y=700)
     widgets.append(button_verification)
 
-    button_restart = Tk.Button(master=window_learning_post, text="Повторить", width=15, height=1,
-                               font=("Arial", "12", "italic"), background="white",
-                               cursor="hand2",
-                               command=lambda: restart_third_task(label_description_task, list_true_answer, label_true_tasks, entry_answer, turing_alg_obj, turing_alg_wid))
-    button_restart.place(x=450, y=705)
+    img_next = Image.open(Path.cwd() / "Image" / "repeat.png")
+    photo_next = ImageTk.PhotoImage(img_next, master=window_learning_post)
+    label_next = Tk.Label(window_learning_post, image=photo_next)
+    label_next.image = photo_next
+    button_restart = Tk.Button(master=window_learning_post, text="Повторить", width=225, height=35,
+                               image=photo_next, compound="left", font=("Arial", "16", "italic"), background=rgb_hack((1, 116, 64)),
+                               cursor="hand2", relief="flat",
+                               command=lambda: restart_third_task(list_true_answer,
+                                                                   label_true_tasks, entry_answer_stud, post_alg_obj,
+                                                                   post_alg_wid))
+    button_restart.place(x=375, y=700)
     widgets.append(button_restart)
 
     img_next = Image.open(Path.cwd() / "Image" / "Step.png")
@@ -471,9 +560,9 @@ def third_task_learn(dict_windows, widgets):
     label_next = Tk.Label(window_learning_post, image=photo_next)
     label_next.image = photo_next
     button_next = Tk.Button(master=window_learning_post, text="Следующее задание  ", image=photo_next,
-                            compound="right", width=200, height=25, font=("Arial", "12", "italic"), background="white",
-                            cursor="hand2", command=lambda: fourth_task_learn(dict_windows, widgets))
-    button_next.place(x=950, y=705)
+                            compound="right", width=300, height=35, font=("Arial", "16", "italic"), background="white",
+                            cursor="hand2", relief="flat", command=lambda: fourth_task_learn(dict_windows, widgets))
+    button_next.place(x=900, y=700)
     widgets.append(button_next)
 
     img_previos = Image.open(Path.cwd() / "Image" / "Step_previos.png")
@@ -481,21 +570,55 @@ def third_task_learn(dict_windows, widgets):
     label_previos = Tk.Label(window_learning_post, image=photo_previos)
     label_previos.image = photo_previos
     button_previos = Tk.Button(master=window_learning_post, text="Предыдущее задание  ", image=photo_previos,
-                               compound="left", width=200, height=25, font=("Arial", "12", "italic"),
-                               background="white",
+                               compound="left", width=300, height=35, font=("Arial", "16", "italic"),
+                               background="white", relief="flat",
                                cursor="hand2", command=lambda: second_task_learn(dict_windows, widgets))
-    button_previos.place(x=150, y=705)
+    button_previos.place(x=60, y=700)
     widgets.append(button_previos)
+
+
+def restart_third_task(list_true_answer, label_true_tasks, entry_answer, post_alg_obj, post_alg_wid):
+    cleaning_widgets(post_alg_obj, post_alg_wid)
+    label_true_tasks.config(text="")
+    entry_answer.delete("0", "end")
+    list_true_answer.clear()
+    entry_answer.config(highlightthickness=2, highlightbackground="black", highlightcolor="black")
+    read_and_create_task(post_alg_obj, post_alg_wid, 3, list_true_answer)
+
+
+def check_third_task(list_true_answer, entry_answer, label_true_tasks):
+    if entry_answer.get() == "":
+        return messagebox.showerror(title="Ошибка", message="Похоже вы забыли дать ответ..", parent=entry_answer)
+    if list_true_answer[0] == entry_answer.get():
+        label_true_tasks.config(text="Отлично! Задание выполнено верно!")
+        entry_answer.config(highlightthickness=2, highlightbackground="green", highlightcolor="green")
+    else:
+        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуйте ещё раз!")
+        entry_answer.config(highlightthickness = 2, highlightbackground = "red", highlightcolor = "red")
 
 
 def fourth_task_learn(dict_windows, widgets):
     widgets = destroy_widgets(widgets)
     window_learning_post = dict_windows["window_learning_post"]
 
-    label_number_task = Tk.Label(master=window_learning_post, width=80, text="Задание 3", justify="center",
-                                 font=("Gabriola", "28"), background="white")
-    label_number_task.place(x=0, y=10)
+    label_number_task = Tk.Label(master=window_learning_post, text="Задание 4", width=25, justify="center",
+                                 font=("Gabriola", "44"), background=rgb_hack((1, 116, 64)))
+    label_number_task.place(x=375, y=30)
     widgets.append(label_number_task)
+
+    img_fon = Image.open(Path.cwd() / "Image" / "fon_control.png")
+    photo_fon = ImageTk.PhotoImage(img_fon, master=window_learning_post)
+    label_fon = Tk.Label(window_learning_post, image=photo_fon)
+    label_fon.image = photo_fon
+    canvas = Tk.Canvas(master=window_learning_post, highlightthickness=0, width=240, height=450, background="white",
+                       border=0)
+    canvas.place(x=0, y=0)
+    canvas.create_image(0, 0, anchor="nw", image=photo_fon)
+
+    text_task_condition = Tk.Text(master=window_learning_post, width=75, height=6,
+                                  font=("Cambria", "16"))
+    text_task_condition.place(x=250, y=150)
+    widgets.append(text_task_condition)
 
     img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
     photo_exit = ImageTk.PhotoImage(img_exit, master=window_learning_post)
@@ -507,39 +630,16 @@ def fourth_task_learn(dict_windows, widgets):
     button_exit.place(x=5, y=705)
     widgets.append(button_exit)
 
-    label_description_task = Tk.Label(master=window_learning_post, width=100,
-                                      justify="center", font=("Gabriola", "20"), background="white")
-    label_description_task.place(x=20, y=100)
-    widgets.append(label_description_task)
-
-    label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "20"),
+    label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "24"),
                                 background="white")
     label_true_tasks.place(x=550, y=600)
     widgets.append(label_true_tasks)
 
-    frame_answer = Tk.Frame(master=window_learning_post, width=265, height=50, background=rgb_hack((1, 116, 64)),
-                            border=10)
-    frame_answer.place(x=900, y=500)
-    widgets.append(frame_answer)
-    entry_answer = Tk.Entry(master=frame_answer, width=20, font=('Arial', 16, 'bold'), relief="raised")
-    entry_answer.place(x=1, y=1)
-    widgets.append(entry_answer)
-
     list_true_answer = []
-    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=15, height=1,
-                                    font=("Arial", "12", "italic"), background="white",
-                                    cursor="hand2",
-                                    command=lambda: check_fourth_task(list_true_answer, entry_answer, label_true_tasks))
-    button_verification.place(x=650, y=705)
-    widgets.append(button_verification)
-
-    text_task_condition = Tk.Text(master=window_learning_post, width=131, height=8, font=("Times New Roman", "14"))
-    text_task_condition.place(x=10, y=90)
-    widgets.append(text_task_condition)
 
     frame_table_rules = Tk.Frame(master=window_learning_post, width=800, height=250, border=10,
                                  background=rgb_hack((1, 116, 64)))
-    frame_table_rules.place(x=70, y=400)
+    frame_table_rules.place(x=70, y=375)
     widgets.append(frame_table_rules)
 
     frame_infinity_tape = Tk.Frame(master=window_learning_post, width=1140, height=100, padx=0, pady=0, background="white")
@@ -553,27 +653,22 @@ def fourth_task_learn(dict_windows, widgets):
     label_point = Tk.Label(master=frame_infinity_tape, image=photo_point, width=40, height=40, background="white")
     label_point.place(x=547, y=0)
 
-    label_answer = Tk.Label(master=window_learning_post, text="Ваш ответ:", justify="center", font=("Gabriola", "24"),
-                            background="white")
-    label_answer.place(x=900, y=425)
-    widgets.append(label_answer)
-
-    frame_answer = Tk.Frame(master=window_learning_post, width=265, height=50, background=rgb_hack((1, 116, 64)),
-                            border=10)
-    frame_answer.place(x=900, y=500)
-    widgets.append(frame_answer)
-    entry_answer_stud = Tk.Entry(master=frame_answer, width=20, font=('Arial', 16, 'bold'), relief="raised")
-    entry_answer_stud.place(x=1, y=1)
-    widgets.append(entry_answer_stud)
-
     list_true_answer = []
 
-    button_right = Tk.Button(master=window_learning_post, width=1, height=6,
+    img_right = Image.open(Path.cwd() / "Image" / "right.png")
+    photo_right = ImageTk.PhotoImage(img_right, master=window_learning_post)
+    label_right = Tk.Label(window_learning_post, image=photo_right)
+    label_right.image = photo_right
+    button_right = Tk.Button(master=window_learning_post, width=1, height=6, image=photo_right,
                              command=lambda: movement_right(post_alg_obj, post_alg_wid))
     button_right.place(x=1170, y=275, height=100, width=30)
     widgets.append(button_right)
 
-    button_left = Tk.Button(master=window_learning_post, width=1, height=6,
+    img_left = Image.open(Path.cwd() / "Image" / "left.png")
+    photo_left = ImageTk.PhotoImage(img_left, master=window_learning_post)
+    label_left = Tk.Label(window_learning_post, image=photo_left)
+    label_left.image = photo_left
+    button_left = Tk.Button(master=window_learning_post, width=1, height=6, image=photo_left,
                             command=lambda: movement_left(post_alg_obj, post_alg_wid))
     button_left.place(x=0, y=275, height=100, width=30)
     widgets.append(button_left)
@@ -588,157 +683,23 @@ def fourth_task_learn(dict_windows, widgets):
                               frame_table_rules, button_right, button_left)
 
     read_and_create_task(post_alg_obj, post_alg_wid, 4, list_true_answer)
-    
-    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=15, height=1,
-                                    font=("Arial", "12", "italic"), background="white",
-                                    cursor="hand2",
-                                    command=lambda: check_fourth_task(list_true_answer, entry_answer_stud, label_true_tasks))
-    button_verification.place(x=650, y=705)
+
+    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=20, height=1,
+                                    font=("Arial", "16", "italic"), background=rgb_hack((1, 116, 64)),
+                                    cursor="hand2", relief="flat",
+                                    command=lambda: check_fourth_task(list_true_answer, label_true_tasks, post_alg_wid))
+    button_verification.place(x=650, y=700)
     widgets.append(button_verification)
 
-    button_restart = Tk.Button(master=window_learning_post, text="Повторить", width=15, height=1,
-                               font=("Arial", "12", "italic"), background="white",
-                               cursor="hand2",
-                               command=lambda: restart_fourth_task(label_description_task, list_true_answer,
-                                                                   label_true_tasks, entry_answer, post_alg_obj,
-                                                                   post_alg_wid))
-    button_restart.place(x=450, y=705)
-    widgets.append(button_restart)
-
-    img_next = Image.open(Path.cwd() / "Image" / "Step.png")
+    img_next = Image.open(Path.cwd() / "Image" / "repeat.png")
     photo_next = ImageTk.PhotoImage(img_next, master=window_learning_post)
     label_next = Tk.Label(window_learning_post, image=photo_next)
     label_next.image = photo_next
-    button_next = Tk.Button(master=window_learning_post, text="Следующее задание  ", image=photo_next,
-                            compound="right", width=200, height=25, font=("Arial", "12", "italic"), background="white",
-                            cursor="hand2", command=lambda: fifth_task_learn(dict_windows, widgets))
-    button_next.place(x=950, y=705)
-    widgets.append(button_next)
-
-    img_previos = Image.open(Path.cwd() / "Image" / "Step_previos.png")
-    photo_previos = ImageTk.PhotoImage(img_previos, master=window_learning_post)
-    label_previos = Tk.Label(window_learning_post, image=photo_previos)
-    label_previos.image = photo_previos
-    button_previos = Tk.Button(master=window_learning_post, text="Предыдущее задание  ", image=photo_previos,
-                               compound="left", width=200, height=25, font=("Arial", "12", "italic"),
-                               background="white",
-                               cursor="hand2", command=lambda: second_task_learn(dict_windows, widgets))
-    button_previos.place(x=150, y=705)
-    widgets.append(button_previos)
-
-
-def restart_fourth_task(label_description_task, list_true_answer, label_true_tasks, entry_answer, post_alg_obj, post_alg_wid):
-    cleaning_widgets(post_alg_obj, post_alg_wid)
-    label_true_tasks.config(text="")
-    entry_answer.delete("0", "end")
-    list_true_answer.clear()
-    read_and_create_task(post_alg_obj, post_alg_wid, 4, list_true_answer)
-
-
-def check_fourth_task(list_true_answer, entry_answer, label_true_tasks):
-    if entry_answer.get() == "":
-        return messagebox.showerror(title="Ошибка", message="Похоже ты забыл написать ответ..", parent=entry_answer)
-    if list_true_answer[0] == entry_answer.get():
-        label_true_tasks.config(text="Молодец! Ты верно выполнил задание!")
-    else:
-        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуй ещё раз!")
-
-
-def fifth_task_learn(dict_windows, widgets):
-    widgets = destroy_widgets(widgets)
-    window_learning_post = dict_windows["window_learning_post"]
-
-    label_number_task = Tk.Label(master=window_learning_post, width=80, text="Задание 4", justify="center",
-                                 font=("Gabriola", "28"), background="white")
-    label_number_task.place(x=0, y=10)
-    widgets.append(label_number_task)
-
-    img_exit = Image.open(Path.cwd() / "Image" / "exit.png")
-    photo_exit = ImageTk.PhotoImage(img_exit, master=window_learning_post)
-    label_exit = Tk.Label(window_learning_post, image=photo_exit)
-    label_exit.image = photo_exit
-    button_exit = Tk.Button(master=window_learning_post, image=photo_exit, width=40, height=40, cursor="hand2",
-                            background="white", justify="center", relief="flat",
-                            command=lambda: return_window_for_algorithms(dict_windows))
-    button_exit.place(x=5, y=705)
-    widgets.append(button_exit)
-
-    label_description_task = Tk.Label(master=window_learning_post, width=100,
-                                      justify="center", font=("Gabriola", "20"), background="white")
-    label_description_task.place(x=20, y=100)
-    widgets.append(label_description_task)
-
-    label_true_tasks = Tk.Label(master=window_learning_post, width=50, justify="left", font=("Gabriola", "20"),
-                                background="white")
-    label_true_tasks.place(x=550, y=600)
-    widgets.append(label_true_tasks)
-
-    list_true_answer = []
-    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=15, height=1,
-                                    font=("Arial", "12", "italic"), background="white",
-                                    cursor="hand2",
-                                    command=lambda: check_fourth_task(list_true_answer, entry_answer, label_true_tasks))
-    button_verification.place(x=650, y=705)
-    widgets.append(button_verification)
-
-    text_task_condition = Tk.Text(master=window_learning_post, width=131, height=8, font=("Times New Roman", "14"))
-    text_task_condition.place(x=10, y=90)
-    widgets.append(text_task_condition)
-
-    frame_table_rules = Tk.Frame(master=window_learning_post, width=800, height=250, border=10,
-                                 background=rgb_hack((1, 116, 64)))
-    frame_table_rules.place(x=70, y=400)
-    widgets.append(frame_table_rules)
-
-    frame_infinity_tape = Tk.Frame(master=window_learning_post, width=1140, height=100, padx=0, pady=0, background="white")
-    frame_infinity_tape.place(x=30, y=275)
-    widgets.append(frame_infinity_tape)
-
-    img_point = Image.open(Path.cwd() / "Image" / "pointer.png")
-    photo_point = ImageTk.PhotoImage(img_point, master=window_learning_post)
-    label_point = Tk.Label(window_learning_post, image=photo_point)
-    label_point.image = photo_point
-    label_point = Tk.Label(master=frame_infinity_tape, image=photo_point, width=40, height=40, background="white")
-    label_point.place(x=547, y=0)
-
-    list_true_answer = []
-
-    button_right = Tk.Button(master=window_learning_post, width=1, height=6,
-                             command=lambda: movement_right(post_alg_obj, post_alg_wid))
-    button_right.place(x=1170, y=275, height=100, width=30)
-    widgets.append(button_right)
-
-    button_left = Tk.Button(master=window_learning_post, width=1, height=6,
-                            command=lambda: movement_left(post_alg_obj, post_alg_wid))
-    button_left.place(x=0, y=275, height=100, width=30)
-    widgets.append(button_left)
-
-    entry_answer_stud = Tk.Entry(master=window_learning_post, width=20, font=('Arial', 16, 'bold'), relief="raised")
-    widgets.append(entry_answer_stud)
-
-    table_rules = [[] for i in range(9)]
-    alphabetical = []
-    alphabet_size = 2
-    infinity_tape = {}
-    output_elm_ids = [-9, 9]
-    post_alg_obj = PostAlg(table_rules, alphabetical, 0, alphabet_size)
-    post_alg_wid = ObjPostAlg(infinity_tape, frame_infinity_tape, output_elm_ids, text_task_condition,
-                              frame_table_rules, button_right, button_left)
-
-    read_and_create_task(post_alg_obj, post_alg_wid, 5, list_true_answer)
-
-    button_verification = Tk.Button(master=window_learning_post, text="Проверить", width=15, height=1,
-                                    font=("Arial", "12", "italic"), background="white",
-                                    cursor="hand2",
-                                    command=lambda: check_fifth_task(list_true_answer, label_true_tasks, post_alg_wid))
-    button_verification.place(x=650, y=705)
-    widgets.append(button_verification)
-
-    button_restart = Tk.Button(master=window_learning_post, text="Повторить", width=15, height=1,
-                               font=("Arial", "12", "italic"), background="white",
-                               cursor="hand2",
-                               command=lambda: restart_fifth_task(label_description_task, list_true_answer, label_true_tasks, post_alg_obj, post_alg_wid))
-    button_restart.place(x=450, y=705)
+    button_restart = Tk.Button(master=window_learning_post, text="Повторить", width=225, height=35,
+                               image=photo_next, compound="left", font=("Arial", "16", "italic"), background=rgb_hack((1, 116, 64)),
+                               cursor="hand2", relief="flat",
+                               command=lambda: restart_fourth_task(list_true_answer, label_true_tasks, post_alg_obj, post_alg_wid))
+    button_restart.place(x=350, y=700)
     widgets.append(button_restart)
 
     img_previos = Image.open(Path.cwd() / "Image" / "Step_previos.png")
@@ -746,28 +707,28 @@ def fifth_task_learn(dict_windows, widgets):
     label_previos = Tk.Label(window_learning_post, image=photo_previos)
     label_previos.image = photo_previos
     button_previos = Tk.Button(master=window_learning_post, text="Предыдущее задание  ", image=photo_previos,
-                               compound="left", width=200, height=25, font=("Arial", "12", "italic"),
-                               background="white",
-                               cursor="hand2", command=lambda: fourth_task_learn(dict_windows, widgets))
-    button_previos.place(x=150, y=705)
+                               compound="left", width=300, height=35, font=("Arial", "16", "italic"),
+                               background="white", relief="flat",
+                               cursor="hand2", command=lambda: third_task_learn(dict_windows, widgets))
+    button_previos.place(x=60, y=700)
     widgets.append(button_previos)
 
 
-def check_fifth_task(list_true_answer, label_true_tasks, post_alg_wid):
+def check_fourth_task(list_true_answer, label_true_tasks, post_alg_wid):
     if post_alg_wid.entry_answer_stud_third.get() == "":
-        return messagebox.showerror(title="Ошибка", message="Похоже ты забыл написать ответ..",
+        return messagebox.showerror(title="Ошибка", message="Похоже вы забыли дать ответ..",
                                     parent=post_alg_wid.entry_answer_stud_third)
     if list_true_answer[0] == post_alg_wid.entry_answer_stud_third.get():
-        label_true_tasks.config(text="Молодец! Ты верно выполнил задание!")
+        label_true_tasks.config(text="Отлично! Задание выполнено верно!")
     else:
-        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуй ещё раз!")
+        label_true_tasks.config(text="Увы.. Допущена ошибка.. Попробуйте ещё раз!")
 
 
-def restart_fifth_task(label_description_task, list_true_answer, label_true_tasks, post_alg_obj, post_alg_wid):
+def restart_fourth_task(list_true_answer, label_true_tasks, post_alg_obj, post_alg_wid):
     cleaning_widgets(post_alg_obj, post_alg_wid)
     label_true_tasks.config(text="")
     list_true_answer.clear()
-    read_and_create_task(post_alg_obj, post_alg_wid, 5, list_true_answer)
+    read_and_create_task(post_alg_obj, post_alg_wid, 4, list_true_answer)
 
 
 def movement_right(post_alg_obj, post_alg_wid):
@@ -953,8 +914,7 @@ def read_and_create_task(post_alg_obj, post_alg_wid, number_task, list_true_answ
     for dct in example_info:
         if dct["type"] == number_task:
             list_tasks.append(dct)
-
-    number_option = randint(0, 2)
+    number_option = random.randint(0, len(list_tasks) - 1)
     current_tasks = list_tasks[number_option]
 
     counter_command = current_tasks.get("counter_command")
@@ -984,7 +944,7 @@ def read_and_create_task(post_alg_obj, post_alg_wid, number_task, list_true_answ
         for elem in lst:
             elem["state"] = "disabled"
 
-    if number_task == 5:
+    if number_task == 4:
         num_row = current_tasks.get("num_cell_row")
         num_col = current_tasks.get("num_cell_col")
         cell = post_alg_obj.table_rules[num_row][num_col]

@@ -89,6 +89,8 @@ def read_example(post_alg_obj, post_alg_wid, dict_windows):
         return
 
     cleaning_widgets(post_alg_obj, post_alg_wid)
+    if post_alg_wid.tests:
+        post_alg_wid.tests.destroy()
 
     with open(filename, encoding='utf-8') as f:
         example_info = json.load(f)
@@ -178,7 +180,6 @@ def tape_recovery(post_alg_obj, post_alg_wid):
         place_x += 60
 
     if post_alg_obj.alphabetical != post_alg_wid.infinity_tape[post_alg_wid.output_elm_ids[0]].alphabetical:
-        print("алфавиты не совпадают")
         post_alg_obj.alphabetical = post_alg_wid.infinity_tape[post_alg_wid.output_elm_ids[0]].alphabetical
 
         delete_table_rules(post_alg_obj)
@@ -262,7 +263,7 @@ def creating_rules_table(post_alg_obj, post_alg_wid):
                 elif j == 2:
                     cell["validatecommand"] = check_trans
             if j == 3:
-                cell["width"] = 55
+                cell["width"] = 53
             cell.grid(row=i, column=j)
 
 
@@ -432,7 +433,7 @@ def stop_process(post_alg_obj, post_alg_wid):
 
 
 def step_process_post_alg(post_alg_obj, post_alg_wid):
-    print("Шаг", post_alg_obj.counter_step, "-", post_alg_obj.number_str)
+    # print("Шаг", post_alg_obj.counter_step, "-", post_alg_obj.number_str)
 
     post_alg_obj.stop_algorithm = False
     post_alg_wid.button_run["state"] = "disabled"
@@ -448,7 +449,7 @@ def step_process_post_alg(post_alg_obj, post_alg_wid):
 
     if not post_alg_obj.stop_algorithm:
         if post_alg_obj.counter_step == -1:
-            print("я делаю фейк шаг")
+            # print("я делаю фейк шаг")
             post_alg_obj.color_current_command()
         else:
             post_alg_obj.stop_algorithm, post_alg_obj.completed_error = step_alg(post_alg_obj, post_alg_wid)
@@ -482,7 +483,7 @@ def process_post_alg(post_alg_obj, post_alg_wid):
     post_alg_wid.button_step["state"] = "disabled"
 
     while not post_alg_obj.stop_algorithm:
-        print(post_alg_obj.counter_step)
+        # print(post_alg_obj.counter_step)
         if post_alg_obj.counter_step >= 1000:
             messagebox.showwarning(title="Предупреждение",
                                    message="В вашем алгоритме обнаружено больше 1000 шагов. Возможно в нем присутствует цикл. Пожалуйста, исправьте ваши правила.",
@@ -548,7 +549,7 @@ def add_row_table_rules(post_alg_obj, post_alg_wid):
             elif j == 2:
                 cell["validatecommand"] = check_trans
             if j == 3:
-                cell["width"] = 55
+                cell["width"] = 53
         cell.grid(row=i, column=j)
 
     post_alg_obj.table_rules.append(lst)
@@ -596,10 +597,10 @@ def creating_and_fill_infinity_tape(post_alg_obj, post_alg_wid, expression_info,
 
     min_ind, max_ind = min(expression_info.keys()), max(expression_info.keys())
     min_ind, max_ind = min([int(min_ind), pointer_index - 9]), max([int(max_ind), pointer_index + 10])
-    print(f"min {min_ind} and max {max_ind}")
+    # print(f"min {min_ind} and max {max_ind}")
 
     post_alg_wid.output_elm_ids = [pointer_index - 9, pointer_index + 10]
-    print(post_alg_wid.output_elm_ids)
+    # print(post_alg_wid.output_elm_ids)
 
     for ind in range(min_ind, max_ind + 1):
         symbol = Tk.StringVar(post_alg_wid.frame_infinity_tape)
@@ -640,9 +641,6 @@ def cleaning_widgets(post_alg_obj, post_alg_wid):
         lbl.destroy()
     post_alg_wid.list_label_ind.clear()
 
-    if post_alg_wid.tests:
-        post_alg_wid.tests.destroy()
-
     post_alg_obj.table_rules = [[] for i in range(11)]
 
     post_alg_wid.output_elm_ids = [-9, 9]
@@ -669,6 +667,8 @@ def creating_new_file(post_alg_obj, post_alg_wid):
     post_alg_wid.text_task_condition.delete("1.0", "end")  # очищение условия задачи
 
     cleaning_widgets(post_alg_obj, post_alg_wid)  # очищение виджетов
+    if post_alg_wid.tests:
+        post_alg_wid.tests.destroy()
 
     creating_rules_table(post_alg_obj, post_alg_wid)
     creating_infinity_tape(post_alg_obj, post_alg_wid)

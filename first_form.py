@@ -1,4 +1,3 @@
-
 import tkinter as Tk
 import services.algorithms as algorithms
 from tkinter import ttk

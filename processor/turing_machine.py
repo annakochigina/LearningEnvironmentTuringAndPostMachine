@@ -231,6 +231,8 @@ def read_example(turing_alg_obj, turing_alg_wid, dict_windows):
         example_info = json.load(f)
 
     cleaning_widgets(turing_alg_obj, turing_alg_wid)
+    if turing_alg_wid.tests:
+        turing_alg_wid.tests.destroy()
 
     alphabetical_text = example_info.get("alphabetical")
     counter_states = example_info.get("counter_states")
@@ -238,7 +240,9 @@ def read_example(turing_alg_obj, turing_alg_wid, dict_windows):
     table_rules = example_info.get("table_rules")
     expression_info = example_info.get("expression")
     task_condition = example_info.get("task_condition")
-    turing_alg_wid.text_task_condition.insert("end", task_condition)
+    if turing_alg_wid.text_task_condition:
+        turing_alg_wid.text_task_condition.delete("1.0", "end")
+        turing_alg_wid.text_task_condition.insert("end", task_condition)
 
     turing_alg_obj.pointer_index = pointer_index
     turing_alg_obj.counter_states = counter_states
@@ -279,7 +283,8 @@ def save_file(turing_alg_obj, turing_alg_wid, dict_windows):
                                         parent=dict_windows["window_machine_turing"])
 
     if new_file_example:
-        json.dump(example_info, new_file_example, ensure_ascii=False, indent=4)
+        with open(new_file_example.name, "w", encoding='utf-8') as f:
+            json.dump(example_info, f, ensure_ascii=False, indent=4)
 
 
 def creating_new_file(turing_alg_obj, turing_alg_wid):
@@ -287,6 +292,9 @@ def creating_new_file(turing_alg_obj, turing_alg_wid):
     turing_alg_wid.entry_alphabetical.delete("0", "end")
 
     turing_alg_obj.alphabetical = ["0", "1", " "]
+
+    if turing_alg_wid.tests:
+        turing_alg_wid.tests.destroy()
 
     cleaning_widgets(turing_alg_obj, turing_alg_wid)
 
@@ -311,6 +319,7 @@ def delete_rules_table(turing_alg_obj):
         for elem in lst:
             cell = elem
             cell.destroy()
+
     turing_alg_obj.table_rules.clear()
 
 
@@ -331,8 +340,8 @@ def cleaning_widgets(turing_alg_obj, turing_alg_wid):
     turing_alg_wid.list_lbl_comments[1]["text"] = ""
     turing_alg_wid.list_lbl_comments[2]["text"] = ""
 
-    if turing_alg_wid.tests:
-        turing_alg_wid.tests.destroy()
+    # if turing_alg_wid.tests:
+    #     turing_alg_wid.tests.destroy()
 
     delete_rules_table(turing_alg_obj)
 
@@ -483,11 +492,11 @@ def fake_step(turing_alg_obj, turing_alg_wid):
         return True
 
     ind = current_rule.index(sym)
-    turing_alg_obj.index_states = int(current_rule[ind + 1:])  # состояние, в которое нужно перейти
+    index_states = int(current_rule[ind + 1:])  # состояние, в которое нужно перейти
     elem_replace = current_rule[:ind]  # элемент, на который нужно заменить
 
-    if turing_alg_obj.index_states > turing_alg_obj.counter_states:
-        messagebox.showerror(title="Ошибка", message=f"Состояния Q{turing_alg_obj.index_states} не существует",
+    if index_states > turing_alg_obj.counter_states:
+        messagebox.showerror(title="Ошибка", message=f"Состояния Q{index_states} не существует",
                              parent=turing_alg_wid.frame_table_rules)
         turing_alg_obj.index_states = 0
         return True
@@ -958,19 +967,18 @@ def simulator_turing_machine(dict_windows):
     text_task_condition.place(x=10, y=85)
 
     container = ttk.Frame(master=window_machine_turing, width=800, height=250)
-    canvas = Tk.Canvas(master=container, width=800, height=250, background="white", border=0)
+    canvas = Tk.Canvas(master=container, width=780, height=240, background="white", border=0)
     scrollbary = ttk.Scrollbar(master=container, orient=Tk.VERTICAL, command=canvas.yview)
     scrollbarx = ttk.Scrollbar(master=container, orient=Tk.HORIZONTAL, command=canvas.xview)
 
-    frame_table_rules = Tk.Frame(master=canvas, width=750, height=250, border=10, background=rgb_hack((1, 116, 64)))
+    frame_table_rules = Tk.Frame(master=canvas, width=800, height=250, border=10, background=rgb_hack((1, 116, 64)))
     frame_table_rules.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
     canvas.create_window((0, 0), window=frame_table_rules, anchor="nw")
     canvas.configure(yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
 
-    container.place(x=10, y=430, width=800, height=250)
+    container.place(x=10, y=430, width=820, height=270)
     canvas.pack(side="left", expand=True)
-
     scrollbarx.pack(side="bottom", fill=Tk.X)
     scrollbary.pack(side="right", fill=Tk.Y)
 
